@@ -4,7 +4,7 @@ import axios from "axios";
 const url = `http://localhost:8000/api/v1/`;
 
 // projects endpoints
-export const getAllProjects = () => axios.get(url + 'projects');
+export const getAllProjects = ( page = 1 ) => axios.get(url + `projects?page=${page}`);
 
 // clients endpoints
 export const getAllClients = () => axios.get(url + 'clients');
