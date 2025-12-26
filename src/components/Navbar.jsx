@@ -6,13 +6,19 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-  const [tabValue, setTabValue] = useState('projects');
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleChange = (event, newValue) => {
-    setTabValue(newValue);
+  // value of the Tabs is the current pathname
+  const currentPath = location.pathname;
+
+  const handleNavigation = (event, newValue) => {
+    navigate(newValue); // navigate to the route
   };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -21,16 +27,16 @@ export default function Navbar() {
             CRM
           </Typography>
           <Tabs
-            value={tabValue}
-            onChange={handleChange}
+            value={currentPath}
+            onChange={handleNavigation}
             textColor="secondary"
             indicatorColor="secondary"
             aria-label="secondary tabs example"
             color="inherit"
           >
-            <Tab value="projects" label="Projects" />
-            <Tab value="clients" label="Clients" />
-            <Tab value="tasks" label="Tasks" />
+            <Tab value="/projects" label="Projects" />
+            <Tab value="/clients" label="Clients" />
+            <Tab value="/tasks" label="Tasks" />
           </Tabs>
 
           <Button color="inherit">Login</Button>

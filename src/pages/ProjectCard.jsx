@@ -6,9 +6,9 @@ import CardActionArea from "@mui/material/CardActionArea";
 import * as api from "../api.jsx";
 import { useEffect, useState } from "react";
 import { Box } from "@mui/system";
-import BasicPagination from "./BasicPagination.jsx";
+import BasicPagination from "../components/BasicPagination.jsx";
 
-export default function CardData() {
+export default function ProjectCard() {
   const [projectData, setProjectData] = useState([]);
   const [page, setPages] = useState(1); // state for pages (use it in the api file to fetch data accordingly)
   const [totalPages, setTotalPages] = useState(1); // state for total pages to tell how many pages there will be in the pagination list
