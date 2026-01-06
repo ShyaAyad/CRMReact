@@ -1,9 +1,7 @@
-import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -36,10 +34,9 @@ export default function Navbar() {
           >
             <Tab value="/projects" label="Projects" />
             <Tab value="/clients" label="Clients" />
-            <Tab value="/tasks" label="Tasks" />
+            <Tab value="/tasks" label="Tasks" />            
+            <Tab value="/login" label="Login" color="inherit">Login</Tab>
           </Tabs>
-
-          <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
     </Box>

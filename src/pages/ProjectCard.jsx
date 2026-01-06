@@ -7,6 +7,8 @@ import * as api from "../api.jsx";
 import { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import BasicPagination from "../components/BasicPagination.jsx";
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
 export default function ProjectCard() {
   const [projectData, setProjectData] = useState([]);
@@ -14,13 +16,13 @@ export default function ProjectCard() {
   const [totalPages, setTotalPages] = useState(1); // state for total pages to tell how many pages there will be in the pagination list
 
   const handlePagination = (event, value) => {
-    setPages(value)
-  }
+    setPages(value);
+  };
 
   useEffect(() => {
     const fetchingData = async () => {
       try {
-        const response = await api.getAllProjects(page); 
+        const response = await api.getAllProjects(page);
         setProjectData(response.data.data);
         setTotalPages(response.data.meta.last_page); // get total page numbers from backend
         console.log(response.data);
@@ -48,30 +50,78 @@ export default function ProjectCard() {
         }}
       >
         {projectData.map((data, index) => (
-          <Card sx={{ maxWidth: 345 }} key={index}>
-            <CardActionArea>
-              {/* <CardMedia
-              component="img"
-              height="140"
-              image="/static/images/cards/contemplative-reptile.jpg"
-              alt="green iguana"
-            /> */}
+          <Card
+            sx={{
+              maxWidth: 345,
+              height: 260, 
+              display: "flex",
+              flexDirection: "column",
+            }}
+            key={index}
+          >
+            <CardActionArea
+              sx={{
+                flex: 1, 
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                alignItems: "stretch",
+              }}
+            >
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {data.attribute.name || "no name"}
+                <Typography gutterBottom variant="h5">
+                  {data.attribute.name || "No name"}
+                </Typography>
+
+                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                  {data.attribute.description || "No description"}
                 </Typography>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  {data.attribute.description || "no description"}
+                  {data.attribute.status || "No status"}
+                </Typography>
+                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                  {data.attribute.priority === 1 ? 'High priority' : data.attribute.priority === 2 ? 'Medium priority' : "No priority"}
                 </Typography>
               </CardContent>
+
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <Button
+                component={Link}
+                to={`/clients/${data.client_id}`} 
+                variant="contained"
+                sx={{ m: 2, alignSelf: "flex-start" }}
+              >
+                Client
+              </Button>
+              <Button
+                component={Link}
+                to={`/tasks/${data.task_id}`} 
+                variant="contained"
+                sx={{ m: 2, alignSelf: "flex-start" }}
+              >
+                Tasks
+              </Button>
+              </div>
             </CardActionArea>
           </Card>
         ))}
       </Box>
-      
-      {/* there will be pagination component here */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '20px',  marginBottom: '20px'}}>
-        <BasicPagination page={page} totalPages={totalPages} handlePagination={handlePagination}/>
+
+      {/* pagination */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "20px",
+          marginBottom: "20px",
+        }}
+      >
+        <BasicPagination
+          page={page}
+          totalPages={totalPages}
+          handlePagination={handlePagination}
+        />
       </div>
     </>
   );
