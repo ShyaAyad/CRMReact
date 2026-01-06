@@ -1,9 +1,11 @@
 import { Box, TextField, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import * as api from "../api.jsx";
 
 function Login() {
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
@@ -12,11 +14,10 @@ function Login() {
       const resp = api.logIn(email, password);
       console.log(resp);
     //   const { token, user } = resp.data;
-
     //   localStorage.setItem("token", token);
       localStorage.setItem("email", email);
 
-      console.log("logged in successfully:", email)
+      navigate("/projects");
     } catch (error) {
       console.log("Failed to log user in", error);
     }

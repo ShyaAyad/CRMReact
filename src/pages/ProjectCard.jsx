@@ -87,7 +87,7 @@ export default function ProjectCard() {
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <Button
                 component={Link}
-                to={`/clients/${data.client_id}`} 
+                to={`/clients/${data.attribute.client_id}`} 
                 variant="contained"
                 sx={{ m: 2, alignSelf: "flex-start" }}
               >

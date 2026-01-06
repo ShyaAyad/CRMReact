@@ -5,17 +5,25 @@ import Typography from "@mui/material/Typography";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useLocation, useNavigate } from "react-router-dom";
+import { logOut } from "../api";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // value of the Tabs is the current pathname
   const currentPath = location.pathname;
 
   const handleNavigation = (event, newValue) => {
-    navigate(newValue); // navigate to the route
+    navigate(newValue); 
   };
+
+  const handleLogout = async(e) =>{
+    e.preventDefault();
+    await logOut();
+
+    localStorage.removeItem('email');
+    navigate('/login');
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -34,8 +42,13 @@ export default function Navbar() {
           >
             <Tab value="/projects" label="Projects" />
             <Tab value="/clients" label="Clients" />
-            <Tab value="/tasks" label="Tasks" />            
-            <Tab value="/login" label="Login" color="inherit">Login</Tab>
+            <Tab value="/tasks" label="Tasks" />      
+            {
+              localStorage.getItem('email') ? 
+              <Tab onClick={handleLogout} label="Logout" color="inherit" />
+              : 
+              <Tab value="/login" label="Login" color="inherit" />
+            }
           </Tabs>
         </Toolbar>
       </AppBar>
