@@ -17,4 +17,4 @@ export const logIn = (email, password) => axios.post(url + `login`, {email, pass
 export const logOut = () => axios.post(url + `logot`);
 
 // get client details
-export const clientDetails = (id) => axios.get(url + `client:${id}`);
+export const clientDetails = (id) => axios.get(url + `clients?id=${id}`);

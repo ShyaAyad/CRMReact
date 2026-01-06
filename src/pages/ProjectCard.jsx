@@ -25,7 +25,7 @@ export default function ProjectCard() {
         const response = await api.getAllProjects(page);
         setProjectData(response.data.data);
         setTotalPages(response.data.meta.last_page); // get total page numbers from backend
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
         console.log("Error fetching data:", error);
       }
