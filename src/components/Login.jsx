@@ -4,18 +4,22 @@ import { useState } from "react";
 import * as api from "../api.jsx";
 
 function Login() {
-  const [email, setEmail] = useState("");
+  
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const resp = api.logIn(email, password);
-      console.log(resp);
-    //   const { token, user } = resp.data;
-    //   localStorage.setItem("token", token);
+      const resp = await api.logIn(email, password);
+      console.log(resp.data);
+      const { token, user } = resp.data;
+      localStorage.setItem("token", token);
       localStorage.setItem("email", email);
+      localStorage.setItem("user", user);
+
+      // console.log(user); return username from backend
 
       navigate("/projects");
     } catch (error) {
@@ -37,7 +41,7 @@ function Login() {
       <Typography variant="h5" textAlign="center" mb={2}>
         Login
       </Typography>
-      <form action="" onSubmit={handleLogin}>
+      <form onSubmit={handleLogin}>
         <TextField
           label="Email"
           value={email}

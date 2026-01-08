@@ -6,6 +6,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logOut } from "../api";
+import { Button } from "@mui/material";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -14,23 +15,25 @@ export default function Navbar() {
   const currentPath = location.pathname;
 
   const handleNavigation = (event, newValue) => {
-    navigate(newValue); 
+    navigate(newValue);
   };
 
-  const handleLogout = async(e) =>{
+  // logout has issue
+  const handleLogout = async (e) => {
     e.preventDefault();
     await logOut();
 
-    localStorage.removeItem('email');
-    navigate('/login');
-  }
+    localStorage.removeItem("email");
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            CRM
+            CRM 
           </Typography>
           <Tabs
             value={currentPath}
@@ -42,13 +45,16 @@ export default function Navbar() {
           >
             <Tab value="/projects" label="Projects" />
             <Tab value="/clients" label="Clients" />
-            <Tab value="/tasks" label="Tasks" />      
-            {
-              localStorage.getItem('email') ? 
-              <Tab onClick={handleLogout} label="Logout" color="inherit" />
-              : 
+            {localStorage.getItem("email") ? (
+              <Tab value="/add" label="Add" />
+            ) : null}
+            {localStorage.getItem("email") ? (
+              <Button color="inherit" onClick={handleLogout}>
+                Logout
+              </Button>
+            ) : (
               <Tab value="/login" label="Login" color="inherit" />
-            }
+            )}
           </Tabs>
         </Toolbar>
       </AppBar>
