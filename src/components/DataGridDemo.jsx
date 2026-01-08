@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
+import BasicPagination from "./BasicPagination";
 
 // column stylings and fields
 const columns = [
@@ -21,7 +22,7 @@ const columns = [
     field: "email",
     headerName: "Email",
     sortable: true,
-    width: 260
+    width: 260,
   },
   {
     field: "company",
@@ -31,35 +32,52 @@ const columns = [
   },
 ];
 
-export default function DataGridDemo({ clientData }) {
+export default function DataGridDemo({ clientData, page, totalPages, handlePagination }) {
 
-  // map to get each clients info 
+  // map to get each clients info
   const rows = clientData.map((client) => {
     return {
-      id: client.id, // the key names must match the name of the column fields 
+      id: client.id, // the key names must match the name of the column fields
       name: client.name,
       phone: client.phone,
       email: client.email,
-      company: client.company
+      company: client.company,
     };
   });
 
   return (
-    <Box sx={{ height: 400, width: "100%", marginTop: "20px" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
+    <>
+      <Box sx={{ height: 630, width: "100%", marginTop: "20px" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+              },
             },
-          },
+          }}
+          pageSizeOptions={[5]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
+      </Box>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "20px",
+          marginBottom: "20px",
         }}
-        pageSizeOptions={[5]}
-        checkboxSelection
-        disableRowSelectionOnClick
-      />
-    </Box>
+      >
+        <BasicPagination
+          page={page}
+          totalPages={totalPages}
+          handlePagination={handlePagination}
+        />
+      </div>
+    </>
   );
 }

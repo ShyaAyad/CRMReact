@@ -13,13 +13,10 @@ function Login() {
     e.preventDefault();
     try {
       const resp = await api.logIn(email, password);
-      console.log(resp.data);
       const { token, user } = resp.data;
       localStorage.setItem("token", token);
       localStorage.setItem("email", email);
       localStorage.setItem("user", user);
-
-      // console.log(user); return username from backend
 
       navigate("/projects");
     } catch (error) {

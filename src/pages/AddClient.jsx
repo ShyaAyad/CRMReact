@@ -12,10 +12,11 @@ const AddClient = () => {
     e.preventDefault();
     const clientData =  {name, email, phone, company};
     console.log(clientData);
-    await api.createClient(clientData);
-
-
-    console.log("Test");
+    api.createClient(clientData);
+    setName('');
+    setEmail('');
+    setPhone('');
+    setCompany('');
   }
 
   return (

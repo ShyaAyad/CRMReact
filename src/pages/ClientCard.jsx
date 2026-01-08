@@ -17,17 +17,13 @@ const ClientCard = () => {
         const resp = await api.getAllClients(page);
         setClientData(resp.data.data); 
         setTotalPages(resp.data.meta.last_page);
-
-        // only for debugging and testing
-        console.log(resp.data.meta.last_page);
-        console.log(resp.data);
       };
 
       getClients();
     } catch (error) {
       console.log("Error fetching client data, Try again!");
     }
-  }, []);
+  }, [page]);
 
   return (
     <>
