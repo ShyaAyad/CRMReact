@@ -10,9 +10,9 @@ const ClientDetails = () => {
   useEffect(() => {
     const fetchClientData = async () => {
       try {
-        const resp = await api.clientDetails(id);
+        const resp = await api.clientDetails(id); // send id to api 
         console.log(resp.data);
-        setClientData(resp.data[0]);
+        setClientData(resp.data.data); 
       } catch (error) {
         console.log(`Failed to fetch client ${id} data`, error);
       }
