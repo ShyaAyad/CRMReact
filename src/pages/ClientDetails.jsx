@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as api from "../api.jsx";
-import { Card, CardContent, Chip, Container, Divider, Grid, Typography } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import {
+  Card,
+  CardContent,
+  Chip,
+  Container,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
 
 const ClientDetails = () => {
   const { id } = useParams();
@@ -10,20 +19,23 @@ const ClientDetails = () => {
   useEffect(() => {
     const fetchClientData = async () => {
       try {
-        const resp = await api.clientDetails(id); // send id to api 
+        const resp = await api.clientDetails(id); // send id to api
         console.log(resp.data);
-        setClientData(resp.data.data); 
+        setClientData(resp.data.data);
       } catch (error) {
         console.log(`Failed to fetch client ${id} data`, error);
       }
     };
-    
+
     fetchClientData();
   }, [id]);
 
   return (
     <>
-    <Typography style={{marginTop: "20px"}}>Client {id}</Typography>
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <a href="/projects" style={{color: 'black', margin: '10px 20px'}}><HomeIcon fontSize="large" style={{ marginTop: "20px" }} /></a>
+        <Typography style={{ marginTop: "20px" }}>Client {id}</Typography>
+      </div>
       <Container maxWidth="sm" sx={{ mt: 4 }}>
         <Card elevation={3}>
           <CardContent>
@@ -59,7 +71,11 @@ const ClientDetails = () => {
                 <Typography variant="subtitle2" color="text.secondary">
                   Company
                 </Typography>
-                <Chip label={clientData.company || "No company"} color="primary" size="small" />
+                <Chip
+                  label={clientData.company || "No company"}
+                  color="primary"
+                  size="small"
+                />
               </Grid>
             </Grid>
           </CardContent>

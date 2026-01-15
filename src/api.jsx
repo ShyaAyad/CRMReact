@@ -7,6 +7,15 @@ const url = `http://localhost:8000/api/v1/`;
 export const getAllProjects = (page = 1) =>
   axios.get(url + `projects?page=${page}`);
 
+export const searchClient = (client) => {
+  const token = localStorage.getItem("token");
+  return axios.get(url + `clients/search?name=${client}`, {
+     headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
 // clients endpoints
 export const getAllClients = (page = 1) =>
   axios.get(url + `clients?page=${page}`);

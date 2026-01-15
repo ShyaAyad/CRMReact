@@ -32,7 +32,7 @@ const columns = [
   },
 ];
 
-export default function DataGridDemo({ clientData, page, totalPages, handlePagination }) {
+export default function DataGridDemo({ clientData, page, totalPages, handlePagination, searchQuery }) {
 
   // map to get each clients info
   const rows = clientData.map((client) => {

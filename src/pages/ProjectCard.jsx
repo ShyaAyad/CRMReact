@@ -95,7 +95,7 @@ export default function ProjectCard() {
               </Button>
               <Button
                 component={Link}
-                to={`/tasks/${data.task_id}`} 
+                to={`/tasks/${data.attribute.task_id}`} 
                 variant="contained"
                 sx={{ m: 2, alignSelf: "flex-start" }}
               >
