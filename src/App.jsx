@@ -7,12 +7,14 @@ import ClientDetails from "./pages/ClientDetails.jsx";
 import AddNew from "./pages/AddNew.jsx";
 import AddProject from "./pages/AddProject.jsx";
 import AddClient from "./pages/AddClient.jsx";
+import Home from "./pages/Home.jsx";
 
 function App() {
   return (
     <>
       <Navbar />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/projects" element={<ProjectCard />} />
         <Route path="/clients" element={<ClientCard />} />
         <Route path="/add" element={<AddNew />} />

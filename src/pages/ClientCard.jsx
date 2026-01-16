@@ -16,11 +16,14 @@ const ClientCard = () => {
   const handleSearch = async (e) => {
      e.preventDefault();
 
-    const searchQuery = e.target.search.value; // take users input 
+    const query = e.target.search.value; // take users input 
     try {
-      const resp = await api.searchClient(searchQuery);
+      const resp = await api.searchClient(query);
       console.log(resp.data.searchResult);
-      setSearchQuery(resp.data.searchResult);
+      // becuase search result is an array and don't want error if no result is found so we render empty array
+      setSearchQuery(resp.data.searchResult); 
+
+      e.target.search.value = "";
 
     } catch (error) {
       console.log("Failed to return client", error);

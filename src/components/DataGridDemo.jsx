@@ -32,8 +32,13 @@ const columns = [
   },
 ];
 
-export default function DataGridDemo({ clientData, page, totalPages, handlePagination, searchQuery }) {
-
+export default function DataGridDemo({
+  clientData,
+  page,
+  totalPages,
+  handlePagination,
+  searchQuery,
+}) {
   // map to get each clients info
   const rows = clientData.map((client) => {
     return {
@@ -45,11 +50,24 @@ export default function DataGridDemo({ clientData, page, totalPages, handlePagin
     };
   });
 
+  const searchRows = searchQuery.map((client) => {
+    return {
+      id: client.id, // the key names must match the name of the column fields
+      name: client.name,
+      phone: client.phone,
+      email: client.email,
+      company: client.company,
+    };
+  });
+
+  const displayedRows =
+    searchQuery && searchQuery.length > 0 ? searchRows : rows;
+
   return (
     <>
       <Box sx={{ height: 630, width: "100%", marginTop: "20px" }}>
         <DataGrid
-          rows={rows}
+          rows={displayedRows}
           columns={columns}
           initialState={{
             pagination: {

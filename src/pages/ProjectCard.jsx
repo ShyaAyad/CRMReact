@@ -1,6 +1,5 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import * as api from "../api.jsx";
@@ -25,7 +24,6 @@ export default function ProjectCard() {
         const response = await api.getAllProjects(page);
         setProjectData(response.data.data);
         setTotalPages(response.data.meta.last_page); // get total page numbers from backend
-        // console.log(response.data);
       } catch (error) {
         console.log("Error fetching data:", error);
       }
@@ -53,7 +51,7 @@ export default function ProjectCard() {
           <Card
             sx={{
               maxWidth: 345,
-              height: 260, 
+              height: 260,
               display: "flex",
               flexDirection: "column",
             }}
@@ -61,7 +59,7 @@ export default function ProjectCard() {
           >
             <CardActionArea
               sx={{
-                flex: 1, 
+                flex: 1,
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
@@ -76,31 +74,58 @@ export default function ProjectCard() {
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
                   {data.attribute.description || "No description"}
                 </Typography>
+
+
+                {
+                data.attribute.status === "completed" ? (
+                  <Typography variant="body2" sx={{ color: "green" }}>
+                    {data.attribute.status || "No status"}
+                  </Typography>
+                ) : data.attribute.status === "in progress" ? (
+                  <Typography variant="body2" sx={{ color: "orange" }}>
+                    {data.attribute.status || "No status"}
+                  </Typography>
+                ) : data.attribute.status === "not started" ? (
+                  <Typography variant="body2" sx={{ color: "red" }}>
+                    {data.attribute.status || "No status"}
+                  </Typography>
+                ) : data.attribute.status === "on hold" ? (
+                  <Typography variant="body2" sx={{ color: "blue" }}>
+                    {data.attribute.status || "No status"}
+                  </Typography>
+                )
+                : (
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                    {data.attribute.status || "No status"}
+                  </Typography>
+                )
+              }
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  {data.attribute.status || "No status"}
-                </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  {data.attribute.priority === 1 ? 'High priority' : data.attribute.priority === 2 ? 'Medium priority' : "No priority"}
+                  {data.attribute.priority === 1
+                    ? "High priority"
+                    : data.attribute.priority === 2
+                    ? "Medium priority"
+                    : "No priority"}
                 </Typography>
               </CardContent>
 
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <Button
-                component={Link}
-                to={`/clients/${data.attribute.client_id}`} 
-                variant="contained"
-                sx={{ m: 2, alignSelf: "flex-start" }}
-              >
-                Client
-              </Button>
-              <Button
-                component={Link}
-                to={`/tasks/${data.attribute.task_id}`} 
-                variant="contained"
-                sx={{ m: 2, alignSelf: "flex-start" }}
-              >
-                Tasks
-              </Button>
+                  component={Link}
+                  to={`/clients/${data.attribute.client_id}`}
+                  variant="contained"
+                  sx={{ m: 2, alignSelf: "flex-start" }}
+                >
+                  Client
+                </Button>
+                <Button
+                  component={Link}
+                  to={`/tasks/${data.attribute.task_id}`}
+                  variant="contained"
+                  sx={{ m: 2, alignSelf: "flex-start" }}
+                >
+                  Tasks
+                </Button>
               </div>
             </CardActionArea>
           </Card>

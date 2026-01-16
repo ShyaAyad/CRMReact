@@ -29,6 +29,10 @@ export const createClient = (clientData) => {
   });
 };
 
+// get client details
+export const clientDetails = (id) => axios.get(url + `clients/${id}`);
+
+
 // tasks endpoints
 export const getAllTasks = (page = 1) => axios.get(url + `tasks?page=${page}`);
 
@@ -44,6 +48,3 @@ export const logOut = () => {
     },
   });
 };
-
-// get client details
-export const clientDetails = (id) => axios.get(url + `clients/${id}`);
