@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Typography,
@@ -10,55 +10,61 @@ import {
 import PeopleIcon from "@mui/icons-material/People";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import * as api from "../api.jsx";
 
 const Home = () => {
   const [clients, setClients] = useState([]);
   const [projects, setProjects] = useState([]);
+
+  // total clients and projects stored in state
+  const [totalClients, setTotalClients] = useState(0);
+  const [totalProjects, setTotalProjects] = useState(0);
+
   const [page, setPages] = useState(1); // state for pages (use it in the api file to fetch data accordingly)
   const [totalPages, setTotalPages] = useState(1); // state for total pages to tell how many pages there will be in the pagination list
 
+  // useMemo to avoid recalculating on every render
+  const activeProjects = useMemo(() => {
+    return projects.filter(
+      (project) => project.attribute.status === "in progress",
+    ).length;
+  }, [projects]);
+
   useEffect(() => {
-    try {
-      const getClients = async () => {
-        const resp = await api.getAllClients(page);
-        setClients(resp.data.data);
-        setTotalPages(resp.data.meta.last_page);
+    const getHomePageData = async () => {
+        try {
+        const clientRes = await api.getAllClients(page);
+        setClients(clientRes.data.data);
+        setTotalPages(clientRes.data.meta.last_page);
+        setTotalClients(clientRes.data.total_clients);
 
-        console.log("Clients Data:", resp.data);
-        console.log(resp.data.total_clients);
-      };
-
-      const getProjects = async () => {
-        const resp = await api.getAllProjects();
-        setProjects(resp.data.data);
-        setTotalPages(resp.data.meta.last_page);
-
-        console.log(resp.data.total_projects);
+        const projectRes = await api.getAllProjects();
+        setProjects(projectRes.data.data);
+        setTotalProjects(projectRes.data.total_projects);
+        setTotalPages(projectRes.data.meta.last_page);
+      } catch (error) {
+        console.log("Error fetching clients:", error);
       }
+    };
 
-      getClients();
-      getProjects();
-    } catch (error) {
-      console.log("Error fetching clients, Try again!");
-    }
+    getHomePageData();
   }, [page]);
 
   const stats = [
     {
       title: "Total Clients",
-      value: clients.length * totalPages, // number of clients per page is nearly 15 so multiply by number of pages to get total
-      icon: <PeopleIcon fontSize="large" color="primary" />
+      value: totalClients,
+      icon: <PeopleIcon fontSize="large" color="primary" />,
     },
     {
-        title: "All Projects",
-        value: projects.length ,
-        icon: <AccountTreeIcon fontSize="large" color="blue" />,
+      title: "All Projects",
+      value: totalProjects,
+      icon: <AccountTreeIcon fontSize="large" color="blue" />,
     },
     {
       title: "Active Projects",
-      value: 35,
+      value: activeProjects,
       icon: <AssignmentIcon fontSize="large" color="secondary" />,
     },
     {
