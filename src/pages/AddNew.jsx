@@ -30,6 +30,7 @@ const AddNew = () => {
           width: 480,
           borderRadius: 3,
           p: 3,
+          mt: 15
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>

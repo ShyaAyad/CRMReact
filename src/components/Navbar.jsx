@@ -1,7 +1,6 @@
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -31,10 +30,10 @@ export default function Navbar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Toolbar style={{display: "flex", justifyContent: 'space-between'}}>
+          <a href="/" style={{color: 'white', textDecoration: 'none', fontSize: 24, marginRight: 20}}>
             CRM 
-          </Typography>
+          </a>
           <Tabs
             value={currentPath}
             onChange={handleNavigation}

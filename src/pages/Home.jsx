@@ -20,29 +20,26 @@ const Home = () => {
   // total clients and projects stored in state
   const [totalClients, setTotalClients] = useState(0);
   const [totalProjects, setTotalProjects] = useState(0);
+  const [activeProjects, setActiveProjects] = useState(0);
 
   const [page, setPages] = useState(1); // state for pages (use it in the api file to fetch data accordingly)
   const [totalPages, setTotalPages] = useState(1); // state for total pages to tell how many pages there will be in the pagination list
 
-  // useMemo to avoid recalculating on every render
-  const activeProjects = useMemo(() => {
-    return projects.filter(
-      (project) => project.attribute.status === "in progress",
-    ).length;
-  }, [projects]);
-
   useEffect(() => {
     const getHomePageData = async () => {
         try {
+        // Fetch clients data
         const clientRes = await api.getAllClients(page);
         setClients(clientRes.data.data);
-        setTotalPages(clientRes.data.meta.last_page);
         setTotalClients(clientRes.data.total_clients);
 
+        // Fetch projects data
         const projectRes = await api.getAllProjects();
         setProjects(projectRes.data.data);
+        setActiveProjects(projectRes.data.active_projects);
         setTotalProjects(projectRes.data.total_projects);
         setTotalPages(projectRes.data.meta.last_page);
+
       } catch (error) {
         console.log("Error fetching clients:", error);
       }
