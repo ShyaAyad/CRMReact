@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -14,9 +14,6 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import * as api from "../api.jsx";
 
 const Home = () => {
-  const [clients, setClients] = useState([]);
-  const [projects, setProjects] = useState([]);
-
   // total clients and projects stored in state
   const [totalClients, setTotalClients] = useState(0);
   const [totalProjects, setTotalProjects] = useState(0);
@@ -30,12 +27,10 @@ const Home = () => {
         try {
         // Fetch clients data
         const clientRes = await api.getAllClients(page);
-        setClients(clientRes.data.data);
         setTotalClients(clientRes.data.total_clients);
 
         // Fetch projects data
         const projectRes = await api.getAllProjects();
-        setProjects(projectRes.data.data);
         setActiveProjects(projectRes.data.active_projects);
         setTotalProjects(projectRes.data.total_projects);
         setTotalPages(projectRes.data.meta.last_page);
@@ -46,7 +41,7 @@ const Home = () => {
     };
 
     getHomePageData();
-  }, [page]);
+  }, [totalClients, totalProjects, activeProjects]);
 
   const stats = [
     {
@@ -73,7 +68,6 @@ const Home = () => {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      {/* Header */}
       <Box sx={{ mb: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Welcome to Your CRM

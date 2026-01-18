@@ -1,18 +1,19 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
+import CardActions from "@mui/material/CardActions";
 import CardActionArea from "@mui/material/CardActionArea";
-import * as api from "../api.jsx";
-import { useEffect, useState } from "react";
-import { Box } from "@mui/system";
-import BasicPagination from "../components/BasicPagination.jsx";
+import Typography from "@mui/material/Typography";
+import { Box, Divider } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import BasicPagination from "../components/BasicPagination.jsx";
+import * as api from "../api.jsx";
 
 export default function ProjectCard() {
   const [projectData, setProjectData] = useState([]);
-  const [page, setPages] = useState(1); // state for pages (use it in the api file to fetch data accordingly)
-  const [totalPages, setTotalPages] = useState(1); // state for total pages to tell how many pages there will be in the pagination list
+  const [page, setPages] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const handlePagination = (event, value) => {
     setPages(value);
@@ -23,14 +24,24 @@ export default function ProjectCard() {
       try {
         const response = await api.getAllProjects(page);
         setProjectData(response.data.data);
-        setTotalPages(response.data.meta.last_page); // get total page numbers from backend
+        setTotalPages(response.data.meta.last_page);
       } catch (error) {
         console.log("Error fetching data:", error);
       }
     };
 
     fetchingData();
-  }, [page]); // useEffect will run when page changes
+  }, [page]);
+
+  const handleProjectDeletion = async (id) => {
+    try {
+      await api.deleteProject(id);
+      // after deleting show the rest of the projects without the deleted one
+      setProjectData((prevData) =>  prevData.filter(project => project.id !== id));
+    } catch (error) {
+      console.log("Failed to delete project, try again:", error);
+    }
+  };
 
   return (
     <>
@@ -62,11 +73,10 @@ export default function ProjectCard() {
                 flex: 1,
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "space-between",
                 alignItems: "stretch",
               }}
             >
-              <CardContent>
+              <CardContent sx={{ flexGrow: 1 }}>
                 <Typography gutterBottom variant="h5">
                   {data.attribute.name || "No name"}
                 </Typography>
@@ -75,9 +85,7 @@ export default function ProjectCard() {
                   {data.attribute.description || "No description"}
                 </Typography>
 
-
-                {
-                data.attribute.status === "completed" ? (
+                {data.attribute.status === "completed" ? (
                   <Typography variant="body2" sx={{ color: "green" }}>
                     {data.attribute.status || "No status"}
                   </Typography>
@@ -93,53 +101,80 @@ export default function ProjectCard() {
                   <Typography variant="body2" sx={{ color: "blue" }}>
                     {data.attribute.status || "No status"}
                   </Typography>
-                )
-                : (
+                ) : (
                   <Typography variant="body2" sx={{ color: "text.secondary" }}>
                     {data.attribute.status || "No status"}
                   </Typography>
-                )
-              }
+                )}
+
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
                   {data.attribute.priority === 1
                     ? "High priority"
                     : data.attribute.priority === 2
-                    ? "Medium priority"
-                    : "No priority"}
+                      ? "Medium priority"
+                      : "No priority"}
                 </Typography>
               </CardContent>
 
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Divider />
+
+              {/* Authorized buttons only displayed for admin */}
+              <CardActions sx={{ justifyContent: "space-between", px: 2 }}>
+                <Button
+                  component={Link}
+                  to={`/edit-project/${data.id}`}
+                  size="small"
+                  variant="contained"
+                  color="success"
+                >
+                  Edit
+                </Button>
+
+                <Button
+                  type="submit"
+                  size="small"
+                  variant="contained"
+                  color="error"
+                  onClick={() => handleProjectDeletion(data.id)}
+                >
+                  Delete
+                </Button>
+              </CardActions>
+
+              {/* seeing tasks and clients related to the project */}
+              <CardActions
+                sx={{ justifyContent: "space-between", px: 2, pb: 2 }}
+              >
                 <Button
                   component={Link}
                   to={`/clients/${data.attribute.client_id}`}
-                  variant="contained"
-                  sx={{ m: 2, alignSelf: "flex-start" }}
+                  size="small"
+                  variant="outlined"
                 >
                   Client
                 </Button>
+
                 <Button
                   component={Link}
                   to={`/tasks/${data.attribute.task_id}`}
-                  variant="contained"
-                  sx={{ m: 2, alignSelf: "flex-start" }}
+                  size="small"
+                  variant="outlined"
                 >
                   Tasks
                 </Button>
-              </div>
+              </CardActions>
             </CardActionArea>
           </Card>
         ))}
       </Box>
 
-      {/* pagination */}
-      <div
-        style={{
+      <Box
+        sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
+          mt: 4,
+          mb: 4,
         }}
       >
         <BasicPagination
@@ -147,7 +182,7 @@ export default function ProjectCard() {
           totalPages={totalPages}
           handlePagination={handlePagination}
         />
-      </div>
+      </Box>
     </>
   );
 }

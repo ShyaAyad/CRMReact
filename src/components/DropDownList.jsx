@@ -17,8 +17,8 @@ function DropDownList({ label, value, onChange, options }) {
           onChange={onChange}
         >
           {options.map((option) => (
-            <MenuItem value={option} key={option}>
-              {option}
+            <MenuItem value={option.id} key={option.id}>
+              {option.name}
             </MenuItem>
           ))}
         </Select>

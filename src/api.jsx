@@ -7,10 +7,19 @@ const url = `http://localhost:8000/api/v1/`;
 export const getAllProjects = (page = 1) =>
   axios.get(url + `projects?page=${page}`);
 
-export const searchClient = (client) => {
+export const deleteProject = (id) => {
   const token = localStorage.getItem("token");
-  return axios.get(url + `clients/search?name=${client}`, {
-     headers: {
+  return axios.delete(url + `projects/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const createProject = (projectData) => {
+  const token = localStorage.getItem("token");
+  return axios.post(url + `projects`, projectData, {
+    headers: {
       Authorization: `Bearer ${token}`,
     },
   });
@@ -22,21 +31,30 @@ export const getAllClients = (page = 1) =>
 
 export const createClient = (clientData) => {
   const token = localStorage.getItem("token");
-  axios.post(url + `clients`, clientData, {
+  return axios.post(url + `clients`, clientData, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 };
 
+export const searchClient = (client) => {
+  const token = localStorage.getItem("token");
+  return axios.get(url + `clients/search?name=${client}`, {
+     headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+
 // get client details
 export const clientDetails = (id) => axios.get(url + `clients/${id}`);
-
 
 // tasks endpoints
 export const getAllTasks = (page = 1) => axios.get(url + `tasks?page=${page}`);
 
-// loging
+// log in
 export const logIn = (email, password) =>
   axios.post(url + `login`, { email, password });
 // logout

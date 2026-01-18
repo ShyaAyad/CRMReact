@@ -1,9 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-import * as api from "../api.jsx";
-import { useNavigate } from "react-router-dom";
-
-const AddClient = () => {
+const EditClient = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -97,6 +92,6 @@ const AddClient = () => {
       </form>
     </div>
   );
-};
+}
 
-export default AddClient;
+export default EditClient

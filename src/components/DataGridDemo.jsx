@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import BasicPagination from "./BasicPagination";
+import { Button } from "@mui/material";
 
 // column stylings and fields
 const columns = [
@@ -27,8 +28,19 @@ const columns = [
   {
     field: "company",
     headerName: "Company",
-    width: 180,
+    width: 380,
     editable: true,
+  },
+  {
+    field: "actions",
+    headerName: "Actions",
+    width: 180,
+    renderCell: () => (
+      <div style={{ display: "flex", gap: "10px" }}>
+        <Button sx={{ color: "green" }}>Edit</Button>
+        <Button sx={{ color: "red" }}>Delete</Button>
+      </div>
+    ),
   },
 ];
 
