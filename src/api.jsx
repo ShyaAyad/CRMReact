@@ -38,6 +38,15 @@ export const createClient = (clientData) => {
   });
 };
 
+export const deleteClient = (id) => {
+  const token = localStorage.getItem('token');
+  return axios.delete(url + `clients/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  })
+}
+
 export const searchClient = (client) => {
   const token = localStorage.getItem("token");
   return axios.get(url + `clients/search?name=${client}`, {

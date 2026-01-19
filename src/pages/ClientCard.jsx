@@ -49,7 +49,7 @@ const ClientCard = () => {
       <form onSubmit={handleSearch} style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '20px'}}>
         <input style={{padding: '5px 10px', outline: 'none', width: '100%', height: '30px'}} type="text" name="search" placeholder="John Doe"/><Button type="submit">Search</Button>
       </form>
-      <DataGridDemo page={page} totalPages={totalPages} handlePagination={handlePagination} clientData={clientData} searchQuery={searchQuery} />
+      <DataGridDemo page={page} totalPages={totalPages} handlePagination={handlePagination} clientData={clientData} searchQuery={searchQuery} setClientData={setClientData}/>
     </>
   );
 };
