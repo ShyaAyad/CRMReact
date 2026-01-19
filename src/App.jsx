@@ -8,7 +8,7 @@ import AddNew from "./pages/AddNew.jsx";
 import AddProject from "./pages/AddProject.jsx";
 import AddClient from "./pages/AddClient.jsx";
 import Home from "./pages/Home.jsx";
-import EditClient from "./pages/EditClient.jsx";
+import EditProject from "./pages/EditProject.jsx";
 
 function App() {
   return (
@@ -17,19 +17,17 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<ProjectCard />} />
-
+        <Route path="/edit-project/:id" element={<EditProject />} />
         <Route path="/clients" element={<ClientCard />} />
-        <Route path="/clients/:id" element={<ClientDetails />} />  {/* only navigate to that specific client details */}
-        <Route path="/edit-client/:id" element={<EditClient />} />
-
+        <Route path="/clients/:id" element={<ClientDetails />} />
+        {/* only navigate to that specific client details */}
         <Route path="/add" element={<AddNew />} />
-        <Route path="/addProject" element={<AddProject />}/>
-        <Route path="/addClient" element={<AddClient />}/>
-        
+        <Route path="/addProject" element={<AddProject />} />
+        <Route path="/addClient" element={<AddClient />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

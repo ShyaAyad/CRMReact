@@ -25,6 +25,16 @@ export const createProject = (projectData) => {
   });
 }
 
+
+export const updateProject = (id, data) => {
+  const token = localStorage.getItem('token');
+  return axios.put(url + `projects/:${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}
+
 // clients endpoints
 export const getAllClients = (page = 1) =>
   axios.get(url + `clients?page=${page}`);
@@ -45,6 +55,16 @@ export const deleteClient = (id) => {
       Authorization: `Bearer ${token}`,
     }
   })
+}
+
+export const updateClient = async(id, data) => {
+  const token = localStorage.getItem('token');
+  const resp = await axios.put(url + `clients/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return resp.data.data;
 }
 
 export const searchClient = (client) => {

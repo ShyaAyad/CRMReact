@@ -12,14 +12,33 @@ export default function DataGridDemo({
   handlePagination,
   searchQuery,
 }) {
-
-  
   // functions for handling delete and edit functionality
-  const handleEdit = (id) => {};
-
   const handleDelete = async (id) => {
     await api.deleteClient(id);
     setClientData((prev) => prev.filter((client) => client.id != id));
+  };
+
+  const processRowUpdate = async (newRow, oldRow) => {
+    try {
+      // Call API to update client
+      const updatedClient = await api.updateClient(newRow.id, {
+        name: newRow.name,
+        phone: newRow.phone,
+        email: newRow.email,
+        company: newRow.company,
+      });
+
+      setClientData((prev) =>
+        prev.map((client) =>
+          client.id === newRow.id ? updatedClient : client,
+        ),
+      );
+
+      return updatedClient; // return the new updated data
+    } catch (error) {
+      console.error("Update failed:", error);
+      return oldRow; // keep the old data if update fails
+    }
   };
 
   // column stylings and fields
@@ -56,8 +75,10 @@ export default function DataGridDemo({
       width: 180,
       renderCell: (params) => (
         <div style={{ display: "flex", gap: "10px" }}>
-          <Button sx={{ color: "green" }}>Edit</Button>
-          <Button sx={{ color: "red" }} onClick={() => handleDelete(params.row.id)}>
+          <Button
+            sx={{ color: "red" }}
+            onClick={() => handleDelete(params.row.id)}
+          >
             Delete
           </Button>
         </div>
@@ -95,6 +116,9 @@ export default function DataGridDemo({
         <DataGrid
           rows={displayedRows}
           columns={columns}
+          processRowUpdate={processRowUpdate}
+          experimentalFeatures={{ newEditingApi: true }}
+          onProcessRowUpdateError={(error) => console.error(error)}
           initialState={{
             pagination: {
               paginationModel: {

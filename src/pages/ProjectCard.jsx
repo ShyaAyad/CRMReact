@@ -123,6 +123,7 @@ export default function ProjectCard() {
                 <Button
                   component={Link}
                   to={`/edit-project/${data.id}`}
+                  state={{ project: data.attribute }}
                   size="small"
                   variant="contained"
                   color="success"

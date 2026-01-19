@@ -20,7 +20,6 @@ const ClientCard = () => {
     try {
       const resp = await api.searchClient(query);
       console.log(resp.data.searchResult);
-      // becuase search result is an array and don't want error if no result is found so we render empty array
       setSearchQuery(resp.data.searchResult); 
 
       e.target.search.value = "";
