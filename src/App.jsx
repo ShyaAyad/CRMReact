@@ -9,6 +9,7 @@ import AddProject from "./pages/AddProject.jsx";
 import AddClient from "./pages/AddClient.jsx";
 import Home from "./pages/Home.jsx";
 import EditProject from "./pages/EditProject.jsx";
+import Register from "./components/Register.jsx";
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register />}/>
+
         <Route path="/projects" element={<ProjectCard />} />
         <Route path="/edit-project/:id" element={<EditProject />} />
         <Route path="/clients" element={<ClientCard />} />

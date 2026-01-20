@@ -3,27 +3,30 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import * as api from "../api.jsx";
 
-function Login() {
-  
-  const navigate = useNavigate();
+const Register = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async (e) => {
+  const navigate = useNavigate();
+
+  const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const resp = await api.logIn(email, password);
+      const resp = await api.register(name, email, password);
       const { token, user } = resp.data;
+      console.log("Token:", token);
+      console.log("User:", user);
+
       localStorage.setItem("token", token);
-      localStorage.setItem("email", email);
       localStorage.setItem("user", JSON.stringify(user));
 
       navigate("/projects");
     } catch (error) {
-      console.log("Failed to log user in", error);
+      alert("Failed to register user, try again!");
+      console.log("Error: ", error);
     }
   };
-
   return (
     <Box
       sx={{
@@ -36,15 +39,26 @@ function Login() {
       }}
     >
       <Typography variant="h5" textAlign="center" mb={2}>
-        Login
+        Register
       </Typography>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleRegister}>
+        <TextField
+          label="Username"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          type="text"
+          fullWidth
+          autoComplete="off"
+          margin="normal"
+        />
+
         <TextField
           label="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="email"
           fullWidth
+          autoComplete="off"
           margin="normal"
         />
 
@@ -54,18 +68,19 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           type="password"
           fullWidth
+          autoComplete="off"
           margin="normal"
         />
 
         <Typography variant="body2" color="textSecondary" mt={1}>
-          Don't have an account? <a href="/register">Register</a>.
+          Already have an account? <a href="/login">Login</a>.
         </Typography>
         <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
-          Login
+          Continue
         </Button>
       </form>
     </Box>
   );
-}
+};
 
-export default Login;
+export default Register;
