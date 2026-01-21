@@ -11,11 +11,13 @@ import Home from "./pages/Home.jsx";
 import EditProject from "./pages/EditProject.jsx";
 import Register from "./components/Register.jsx";
 import AuthContextProvider from "./context/AuthContext.jsx";
+import SideBar from "./components/Sidebar.jsx";
 
 function App() {
   return (
     <AuthContextProvider> {/* wrap component with the provider to get access to the context in any component that needs it */}
-      <Navbar />
+      {/* <Navbar /> */}
+      <SideBar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />}/>
