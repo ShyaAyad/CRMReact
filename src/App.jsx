@@ -1,5 +1,4 @@
 import ProjectCard from "./pages/ProjectCard.jsx";
-import Navbar from "./components/Navbar.jsx";
 import ClientCard from "./pages/ClientCard.jsx";
 import { Routes, Route } from "react-router-dom";
 import Login from "./components/Login.jsx";
@@ -11,26 +10,27 @@ import Home from "./pages/Home.jsx";
 import EditProject from "./pages/EditProject.jsx";
 import Register from "./components/Register.jsx";
 import AuthContextProvider from "./context/AuthContext.jsx";
-import SideBar from "./components/Sidebar.jsx";
+import Layout from "./components/Layout.jsx";
 
 function App() {
   return (
-    <AuthContextProvider> {/* wrap component with the provider to get access to the context in any component that needs it */}
-      {/* <Navbar /> */}
-      <SideBar />
+    <AuthContextProvider>
+      {/* wrap component with the provider to get access to the context in any component that needs it */}
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />}/>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
 
-        <Route path="/projects" element={<ProjectCard />} />
-        <Route path="/edit-project/:id" element={<EditProject />} />
-        <Route path="/clients" element={<ClientCard />} />
-        <Route path="/clients/:id" element={<ClientDetails />} />
-        {/* only navigate to that specific client details */}
-        <Route path="/add" element={<AddNew />} />
-        <Route path="/addProject" element={<AddProject />} />
-        <Route path="/addClient" element={<AddClient />} />
-        <Route path="/login" element={<Login />} />
+          <Route path="/projects" element={<ProjectCard />} />
+          <Route path="/edit-project/:id" element={<EditProject />} />
+          <Route path="/clients" element={<ClientCard />} />
+          <Route path="/clients/:id" element={<ClientDetails />} />
+          {/* only navigate to that specific client details */}
+          <Route path="/add" element={<AddNew />} />
+          <Route path="/addProject" element={<AddProject />} />
+          <Route path="/addClient" element={<AddClient />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
       </Routes>
     </AuthContextProvider>
   );

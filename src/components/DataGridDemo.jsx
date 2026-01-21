@@ -1,10 +1,14 @@
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import BasicPagination from "./BasicPagination";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useContext } from "react";
 import * as api from "../api.jsx";
 import { AuthContext } from "../context/AuthContext.jsx";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Divider from "@mui/material/Divider";
 
 export default function DataGridDemo({
   clientData,
@@ -14,17 +18,23 @@ export default function DataGridDemo({
   handlePagination,
   searchQuery,
 }) {
-  const { role } = useContext(AuthContext); // get the role of the user
+  const { role } = useContext(AuthContext);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md")); // check if screen is mobile size
 
   // functions for handling delete and edit functionality
   const handleDelete = async (id) => {
-    await api.deleteClient(id);
-    setClientData((prev) => prev.filter((client) => client.id != id));
+    try {
+      await api.deleteClient(id);
+      setClientData((prev) => prev.filter((client) => client.id !== id));
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
   };
 
+  // inline editing
   const processRowUpdate = async (newRow, oldRow) => {
     try {
-      // Call API to update client
       const updatedClient = await api.updateClient(newRow.id, {
         name: newRow.name,
         phone: newRow.phone,
@@ -38,10 +48,10 @@ export default function DataGridDemo({
         ),
       );
 
-      return updatedClient; // return the new updated data
+      return updatedClient; // on success return updated row
     } catch (error) {
       console.error("Update failed:", error);
-      return oldRow; // keep the old data if update fails
+      return oldRow; // if any error return old row
     }
   };
 
@@ -53,6 +63,7 @@ export default function DataGridDemo({
       headerName: "Name",
       width: 150,
       editable: true,
+      flex: isMobile ? 0 : 1,
     },
     {
       field: "phone",
@@ -60,25 +71,29 @@ export default function DataGridDemo({
       type: "number",
       width: 160,
       editable: true,
+      flex: isMobile ? 0 : 1,
     },
     {
       field: "email",
       headerName: "Email",
       sortable: true,
       width: 260,
+      flex: isMobile ? 0 : 1,
     },
     {
       field: "company",
       headerName: "Company",
-      width: 380,
+      width: 200,
       editable: true,
+      flex: isMobile ? 0 : 1,
     },
     {
       field: "actions",
       headerName: "Actions",
-      width: 180,
+      width: 150,
       renderCell: (params) => (
         <div style={{ display: "flex", gap: "10px" }}>
+          {/* conditionally display delete button based on user role */}
           {role === "admin" ? (
             <Button
               sx={{ color: "red" }}
@@ -87,17 +102,17 @@ export default function DataGridDemo({
               Delete
             </Button>
           ) : (
-            <Typography variant="body2">No Actions Available</Typography>
+            <Typography variant="body2">No Actions</Typography>
           )}
         </div>
       ),
     },
   ];
 
-  // map to get each clients info
+  // map to get each clients data
   const rows = clientData.map((client) => {
     return {
-      id: client.id, // the key names must match the name of the column fields
+      id: client.id,
       name: client.name,
       phone: client.phone,
       email: client.email,
@@ -105,9 +120,10 @@ export default function DataGridDemo({
     };
   });
 
+  // map to get serached clients data
   const searchRows = searchQuery.map((client) => {
     return {
-      id: client.id, // the key names must match the name of the column fields
+      id: client.id,
       name: client.name,
       phone: client.phone,
       email: client.email,
@@ -115,37 +131,114 @@ export default function DataGridDemo({
     };
   });
 
+  // if there is a result for search query then display result of query else display all clients
   const displayedRows =
     searchQuery && searchQuery.length > 0 ? searchRows : rows;
 
+  // Mobile Card View for responsiveness 
+  const MobileCardView = () => (
+    <Box
+      sx={{
+        display: "grid",
+        gap: 2,
+        gridTemplateColumns: "1fr",
+        mt: 2,
+      }}
+    >
+      {displayedRows.map((client) => (
+        <Card key={client.id} sx={{ width: "100%" }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              {client.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+              <strong>ID:</strong> {client.id}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+              <strong>Phone:</strong> {client.phone}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+              <strong>Email:</strong> {client.email}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <strong>Company:</strong> {client.company}
+            </Typography>
+          </CardContent>
+          
+          {/* again conditionally display delete button based on user role */}
+          {role === "admin" && (
+            <>
+              <Divider />
+              <CardActions>
+                <Button
+                  size="small"
+                  color="error"
+                  variant="contained"
+                  onClick={() => handleDelete(client.id)}
+                  fullWidth
+                >
+                  Delete
+                </Button>
+              </CardActions>
+            </>
+          )}
+        </Card>
+      ))}
+    </Box>
+  );
+
   return (
     <>
-      <Box sx={{ height: 630, width: "100%", marginTop: "20px" }}>
-        <DataGrid
-          rows={displayedRows}
-          columns={columns}
-          processRowUpdate={processRowUpdate}
-          experimentalFeatures={{ newEditingApi: true }}
-          onProcessRowUpdateError={(error) => console.error(error)}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 10,
-              },
+    {/* conditional rendering based on screen size */}
+      {isMobile ? (
+        <MobileCardView />
+      ) : (
+        <Box
+          sx={{
+            height: 630,
+            width: "100%",
+            marginTop: "20px",
+            "& .MuiDataGrid-root": {
+              border: "none",
             },
           }}
-          pageSizeOptions={[5]}
-          checkboxSelection
-          disableRowSelectionOnClick
-        />
-      </Box>
-      <div
-        style={{
+        >
+          <DataGrid
+            rows={displayedRows}
+            columns={columns}
+            processRowUpdate={processRowUpdate}
+            experimentalFeatures={{ newEditingApi: true }}
+            onProcessRowUpdateError={(error) => console.error(error)}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 10,
+                },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+            checkboxSelection
+            disableRowSelectionOnClick
+            sx={{
+              "& .MuiDataGrid-cell": {
+                borderBottom: "1px solid #f0f0f0",
+              },
+              "& .MuiDataGrid-columnHeaders": {
+                backgroundColor: "#f5f5f5",
+                borderBottom: "2px solid #e0e0e0",
+              },
+            }}
+          />
+        </Box>
+      )}
+
+      <Box
+        sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
+          mt: { xs: 3, md: 2 },
+          mb: { xs: 3, md: 2 },
         }}
       >
         <BasicPagination
@@ -153,7 +246,7 @@ export default function DataGridDemo({
           totalPages={totalPages}
           handlePagination={handlePagination}
         />
-      </div>
+      </Box>
     </>
   );
 }
