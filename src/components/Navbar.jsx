@@ -13,7 +13,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { setUser } = useContext(AuthContext);
+  const { setUser, setRole } = useContext(AuthContext);
   const currentPath = location.pathname;
 
   const handleNavigation = (event, newValue) => {
@@ -23,11 +23,10 @@ export default function Navbar() {
   // logout has issue
   const handleLogout = async () => {
     try {
-      await logOut(); // revoke token on backend
-    } catch (err) {
+      await logOut();
       console.error("Logout failed:", err);
     } finally {
-      // frontend state is the source of truth
+      setRole(null);
       setUser(null);
 
       localStorage.removeItem("email");
