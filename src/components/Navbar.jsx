@@ -6,11 +6,14 @@ import Tab from "@mui/material/Tab";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logOut } from "../api";
 import { Button } from "@mui/material";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { setUser } = useContext(AuthContext);
   const currentPath = location.pathname;
 
   const handleNavigation = (event, newValue) => {
@@ -18,21 +21,37 @@ export default function Navbar() {
   };
 
   // logout has issue
-  const handleLogout = async (e) => {
-    e.preventDefault();
-    await logOut();
+  const handleLogout = async () => {
+    try {
+      await logOut(); // revoke token on backend
+    } catch (err) {
+      console.error("Logout failed:", err);
+    } finally {
+      // frontend state is the source of truth
+      setUser(null);
 
-    localStorage.removeItem("email");
-    localStorage.removeItem("token");
-    navigate("/login");
+      localStorage.removeItem("email");
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+
+      navigate("/");
+    }
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar style={{display: "flex", justifyContent: 'space-between'}}>
-          <a href="/" style={{color: 'white', textDecoration: 'none', fontSize: 24, marginRight: 20}}>
-            CRM 
+        <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
+          <a
+            href="/"
+            style={{
+              color: "white",
+              textDecoration: "none",
+              fontSize: 24,
+              marginRight: 20,
+            }}
+          >
+            CRM
           </a>
           <Tabs
             value={currentPath}

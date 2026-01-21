@@ -6,7 +6,7 @@ import { AuthContext } from "../context/AuthContext.jsx";
 
 function Login() {
   
-  const { setUser } = useContext(AuthContext); // get the context 
+  const { setUser, setRole } = useContext(AuthContext); // get the context 
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,13 +16,14 @@ function Login() {
     try {
       const resp = await api.logIn(email, password);
       const { token, user, role } = resp.data;
-      // setUser(JSON.stringify(user)); // set user to the context state after login to use it in the whole program
+      setUser(user); // set user to the context state after login to use it in the whole program
+      setRole(role);
       localStorage.setItem("token", token);
       localStorage.setItem("email", email);
       localStorage.setItem("user", user);
 
-      console.log("User is: ", user);
-      console.log("Role is: ", role);
+      // console.log("User is: ", user);
+      // console.log("Role is: ", role);
 
       navigate("/projects");
     } catch (error) {

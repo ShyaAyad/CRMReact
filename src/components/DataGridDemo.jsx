@@ -1,8 +1,10 @@
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import BasicPagination from "./BasicPagination";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
+import { useContext } from "react";
 import * as api from "../api.jsx";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 export default function DataGridDemo({
   clientData,
@@ -12,6 +14,8 @@ export default function DataGridDemo({
   handlePagination,
   searchQuery,
 }) {
+  const { role } = useContext(AuthContext); // get the role of the user
+
   // functions for handling delete and edit functionality
   const handleDelete = async (id) => {
     await api.deleteClient(id);
@@ -75,12 +79,16 @@ export default function DataGridDemo({
       width: 180,
       renderCell: (params) => (
         <div style={{ display: "flex", gap: "10px" }}>
-          <Button
-            sx={{ color: "red" }}
-            onClick={() => handleDelete(params.row.id)}
-          >
-            Delete
-          </Button>
+          {role === "admin" ? (
+            <Button
+              sx={{ color: "red" }}
+              onClick={() => handleDelete(params.row.id)}
+            >
+              Delete
+            </Button>
+          ) : (
+            <Typography variant="body2">No Actions Available</Typography>
+          )}
         </div>
       ),
     },

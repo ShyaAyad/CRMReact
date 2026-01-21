@@ -6,14 +6,17 @@ import Typography from "@mui/material/Typography";
 import { Box, Divider } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import BasicPagination from "../components/BasicPagination.jsx";
 import * as api from "../api.jsx";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 export default function ProjectCard() {
   const [projectData, setProjectData] = useState([]);
   const [page, setPages] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  const { role } = useContext(AuthContext); // get the role of the user
 
   const handlePagination = (event, value) => {
     setPages(value);
@@ -37,7 +40,9 @@ export default function ProjectCard() {
     try {
       await api.deleteProject(id);
       // after deleting show the rest of the projects without the deleted one
-      setProjectData((prevData) =>  prevData.filter(project => project.id !== id));
+      setProjectData((prevData) =>
+        prevData.filter((project) => project.id !== id),
+      );
     } catch (error) {
       console.log("Failed to delete project, try again:", error);
     }
@@ -118,29 +123,30 @@ export default function ProjectCard() {
 
               <Divider />
 
-              {/* Authorized buttons only displayed for admin */}
-              <CardActions sx={{ justifyContent: "space-between", px: 2 }}>
-                <Button
-                  component={Link}
-                  to={`/edit-project/${data.id}`}
-                  state={{ project: data.attribute }}
-                  size="small"
-                  variant="contained"
-                  color="success"
-                >
-                  Edit
-                </Button>
+              {role === "admin" && (
+                <CardActions sx={{ justifyContent: "space-between", px: 2 }}>
+                  <Button
+                    component={Link}
+                    to={`/edit-project/${data.id}`}
+                    state={{ project: data.attribute }}
+                    size="small"
+                    variant="contained"
+                    color="success"
+                  >
+                    Edit
+                  </Button>
 
-                <Button
-                  type="submit"
-                  size="small"
-                  variant="contained"
-                  color="error"
-                  onClick={() => handleProjectDeletion(data.id)}
-                >
-                  Delete
-                </Button>
-              </CardActions>
+                  <Button
+                    type="submit"
+                    size="small"
+                    variant="contained"
+                    color="error"
+                    onClick={() => handleProjectDeletion(data.id)}
+                  >
+                    Delete
+                  </Button>
+                </CardActions>
+              )}
 
               {/* seeing tasks and clients related to the project */}
               <CardActions

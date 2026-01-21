@@ -15,7 +15,7 @@ export const register = (name, email, password) => {
 // logout
 export const logOut = () => {
   const token = localStorage.getItem("token");
-  axios.post(url + `logout`, {
+  axios.post(url + `logout`, {}, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -68,7 +68,7 @@ export const createClient = (clientData) => {
 
 export const deleteClient = (id) => {
   const token = localStorage.getItem("token");
-  return axios.delete(url + `clients/${id}`, {
+  return axios.delete(url + `clients/${id}`, {}, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
