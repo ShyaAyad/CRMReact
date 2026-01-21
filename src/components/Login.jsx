@@ -1,10 +1,12 @@
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import * as api from "../api.jsx";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 function Login() {
   
+  const { setUser } = useContext(AuthContext); // get the context 
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,10 +15,14 @@ function Login() {
     e.preventDefault();
     try {
       const resp = await api.logIn(email, password);
-      const { token, user } = resp.data;
+      const { token, user, role } = resp.data;
+      // setUser(JSON.stringify(user)); // set user to the context state after login to use it in the whole program
       localStorage.setItem("token", token);
       localStorage.setItem("email", email);
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user", user);
+
+      console.log("User is: ", user);
+      console.log("Role is: ", role);
 
       navigate("/projects");
     } catch (error) {
