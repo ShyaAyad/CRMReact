@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, TextField, Typography } from "@mui/material";
 import DropDownList from "../components/DropDownList";
 import { useEffect, useState } from "react";
 import * as api from "../api.jsx";
@@ -21,7 +21,7 @@ const AddProject = () => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const resp = await api.getAllClients();
+        const resp = await api.clientsForDropdown();
         setClients(resp.data.data);
       } catch (error) {
         console.log("error in fetching clients data", error);
@@ -66,13 +66,13 @@ const AddProject = () => {
     }
   };
 
-  // id muust math the values in the backend
+  // id must math the values in the backend
   const statusOptions = [
-  { id: "Not started", name: "Not Started" },
-  { id: "In progress", name: "In Progress" },
-  { id: "Completed", name: "Completed" },
-  { id: "On hold", name: "On Hold" },
-];
+    { id: "Not started", name: "Not Started" },
+    { id: "In progress", name: "In Progress" },
+    { id: "Completed", name: "Completed" },
+    { id: "On hold", name: "On Hold" },
+  ];
 
   const priorityOptions = [
     { id: "Low", name: "Low" },
@@ -136,13 +136,18 @@ const AddProject = () => {
           fullWidth
           margin="normal"
         />
-        
+
         {/* change this drop down to an autocomplete dropdown on search */}
-        <DropDownList
-          label="Client"
-          value={clientId}
+        <Autocomplete
           options={clients}
-          onChange={(e) => setClientId(e.target.value)}
+          getOptionLabel={(option) => option.name || ""}
+          value={clients.find((c) => c.id === clientId) || null}
+          onChange={(event, newValue) => {
+            setClientId(newValue ? newValue.id : "");
+          }}
+          renderInput={(params) => (
+            <TextField {...params} label="Client" margin="normal" fullWidth />
+          )}
         />
 
         <DropDownList

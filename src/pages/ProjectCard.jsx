@@ -90,19 +90,19 @@ export default function ProjectCard() {
                   {data.attribute.description || "No description"}
                 </Typography>
 
-                {data.attribute.status === "completed" ? (
+                {data.attribute.status === "Completed" ? (
                   <Typography variant="body2" sx={{ color: "green" }}>
                     {data.attribute.status || "No status"}
                   </Typography>
-                ) : data.attribute.status === "in progress" ? (
+                ) : data.attribute.status === "In progress" ? (
                   <Typography variant="body2" sx={{ color: "orange" }}>
                     {data.attribute.status || "No status"}
                   </Typography>
-                ) : data.attribute.status === "not started" ? (
+                ) : data.attribute.status === "Not started" ? (
                   <Typography variant="body2" sx={{ color: "red" }}>
                     {data.attribute.status || "No status"}
                   </Typography>
-                ) : data.attribute.status === "on hold" ? (
+                ) : data.attribute.status === "On hold" ? (
                   <Typography variant="body2" sx={{ color: "blue" }}>
                     {data.attribute.status || "No status"}
                   </Typography>
@@ -113,9 +113,9 @@ export default function ProjectCard() {
                 )}
 
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  {data.attribute.priority === 1
+                  {data.attribute.priority === "High"
                     ? "High priority"
-                    : data.attribute.priority === 2
+                    : data.attribute.priority === "Medium"
                       ? "Medium priority"
                       : "No priority"}
                 </Typography>

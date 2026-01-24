@@ -26,6 +26,17 @@ export const logOut = () => {
 export const getAllProjects = (page = 1) =>
   axios.get(url + `projects?page=${page}`);
 
+export const getProject = async (id) => {
+  const token = localStorage.getItem("token");
+
+  const resp = await axios.get(url + `projects/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return resp.data;
+};
+
 export const deleteProject = (id) => {
   const token = localStorage.getItem("token");
   return axios.delete(url + `projects/${id}`, {
@@ -46,7 +57,7 @@ export const createProject = (projectData) => {
 
 export const updateProject = (id, data) => {
   const token = localStorage.getItem("token");
-  return axios.put(url + `projects/:${id}`, data, {
+  return axios.put(url + `projects/${id}`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -56,6 +67,15 @@ export const updateProject = (id, data) => {
 // clients endpoints
 export const getAllClients = (page = 1) =>
   axios.get(url + `clients?page=${page}`);
+
+export const clientsForDropdown = () => {
+  const token = localStorage.getItem("token");
+  return axios.get(url + `clients/all`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
 
 export const createClient = (clientData) => {
   const token = localStorage.getItem("token");
