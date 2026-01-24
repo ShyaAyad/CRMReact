@@ -7,13 +7,14 @@ const EditProject = ({ projectId, initialProject, onClose }) => {
   const [project, setProject] = useState({
     name: "",
     description: "",
-    startDate: "",
-    endDate: "",
+    start_date: "",
+    end_date: "",
     clientId: "",
     status: "",
     priority: "",
   });
 
+  // Prefill form with initial project data
   useEffect(() => {
     if (initialProject) {
       setProject(initialProject);
@@ -69,7 +70,7 @@ const EditProject = ({ projectId, initialProject, onClose }) => {
         <TextField
           type="date"
           name="startDate"
-          value={project.startDate}
+          value={project.start_date}
           onChange={handleChange}
           fullWidth
           margin="normal"
@@ -79,13 +80,12 @@ const EditProject = ({ projectId, initialProject, onClose }) => {
         <TextField
           type="date"
           name="endDate"
-          value={project.endDate}
+          value={project.end_date}
           onChange={handleChange}
           fullWidth
           margin="normal"
         />
 
-        {/* Example dropdowns */}
         <DropDownList
           label="Status"
           value={project.status}

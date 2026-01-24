@@ -14,8 +14,8 @@ const AddProject = () => {
   const [project, setProject] = useState({
     name: "",
     description: "",
-    startDate: "",
-    endDate: "",
+    start_date: "",
+    end_date: "",
   });
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const AddProject = () => {
     try {
       const res = await api.createProject(projectData);
       console.log("Project created:", res.data);
-      setProject({ name: "", description: "", startDate: "", endDate: "" });
+      setProject({ name: "", description: "", start_date: "", end_date: "" });
       setClientId("");
       setStatus("");
       setPriority("");
@@ -60,17 +60,19 @@ const AddProject = () => {
       navigate("/");
     } catch (error) {
       console.log(
-        "Error creating client:",
+        "Error creating project:",
         error.response?.data || error.message,
       );
     }
   };
 
+  // id muust math the values in the backend
   const statusOptions = [
-    { id: "Not Started", name: "Not Started" },
-    { id: "In Progress", name: "In Progress" },
-    { id: "Completed", name: "Completed" },
-  ];
+  { id: "Not started", name: "Not Started" },
+  { id: "In progress", name: "In Progress" },
+  { id: "Completed", name: "Completed" },
+  { id: "On hold", name: "On Hold" },
+];
 
   const priorityOptions = [
     { id: "Low", name: "Low" },
@@ -118,8 +120,8 @@ const AddProject = () => {
         <Typography>Start Date</Typography>
         <TextField
           type="date"
-          name="startDate"
-          value={project.startDate}
+          name="start_date"
+          value={project.start_date}
           onChange={handleChange}
           fullWidth
           margin="normal"
@@ -128,8 +130,8 @@ const AddProject = () => {
         <Typography>End Date</Typography>
         <TextField
           type="date"
-          name="endDate"
-          value={project.endDate}
+          name="end_date"
+          value={project.end_date}
           onChange={handleChange}
           fullWidth
           margin="normal"

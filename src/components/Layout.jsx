@@ -4,7 +4,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -137,9 +136,9 @@ function Layout() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <a href="/" style={{ textDecoration: "none", color: "inherit", fontWeight: 'bold', fontSize: '20px' }}>
             CRM
-          </Typography>
+          </a>
         </Toolbar>
       </AppBar>
 

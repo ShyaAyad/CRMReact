@@ -1,12 +1,13 @@
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import * as api from "../api.jsx";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { setUser, setRole } = useContext(AuthContext); // get the context
 
   const navigate = useNavigate();
 
@@ -14,9 +15,9 @@ const Register = () => {
     e.preventDefault();
     try {
       const resp = await api.register(name, email, password);
-      const { token, user } = resp.data;
-      console.log("Token:", token);
-      console.log("User:", user);
+      const { token, user, role } = resp.data;
+      setUser(user);
+      setRole(role);
 
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));

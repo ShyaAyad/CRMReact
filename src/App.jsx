@@ -24,8 +24,7 @@ function App() {
           <Route path="/projects" element={<ProjectCard />} />
           <Route path="/edit-project/:id" element={<EditProject />} />
           <Route path="/clients" element={<ClientCard />} />
-          <Route path="/clients/:id" element={<ClientDetails />} />
-          {/* only navigate to that specific client details */}
+          <Route path="/clients/:id" element={<ClientDetails />} /> {/* only navigate to that specific client details */}
           <Route path="/add" element={<AddNew />} />
           <Route path="/addProject" element={<AddProject />} />
           <Route path="/addClient" element={<AddClient />} />

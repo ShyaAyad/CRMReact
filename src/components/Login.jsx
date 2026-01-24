@@ -22,9 +22,6 @@ function Login() {
       localStorage.setItem("email", email);
       localStorage.setItem("user", user);
 
-      // console.log("User is: ", user);
-      // console.log("Role is: ", role);
-
       navigate("/projects");
     } catch (error) {
       console.log("Failed to log user in", error);

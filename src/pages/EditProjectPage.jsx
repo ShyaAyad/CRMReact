@@ -4,7 +4,7 @@ import EditProject from "./EditProject";
 export default function EditProjectPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { id } = useParams(); // project ID from URL
+  const { id } = useParams();
 
   const project = location.state?.project; // data passed from ProjectCard
 
