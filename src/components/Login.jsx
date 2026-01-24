@@ -21,6 +21,7 @@ function Login() {
       localStorage.setItem("token", token);
       localStorage.setItem("email", email);
       localStorage.setItem("user", user);
+      localStorage.setItem("role", role);
 
       navigate("/projects");
     } catch (error) {

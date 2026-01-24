@@ -21,6 +21,7 @@ const Register = () => {
 
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("role", role);
 
       navigate("/projects");
     } catch (error) {
