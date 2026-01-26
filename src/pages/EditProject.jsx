@@ -8,6 +8,7 @@ const EditProject = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const [clients, setClients] = useState([]);
   const [project, setProject] = useState({
     name: "",
     description: "",
@@ -17,8 +18,6 @@ const EditProject = () => {
     status: "",
     priority: "",
   });
-
-  const [clients, setClients] = useState([]);
 
   const statusOptions = [
     { id: "Not started", name: "Not Started" },
@@ -73,7 +72,7 @@ const EditProject = () => {
     >
       <Box
         sx={{
-          width: 350,
+          width: 700,
           mx: "auto",
           mt: 10,
           p: 3,
@@ -126,9 +125,9 @@ const EditProject = () => {
         <Autocomplete
           options={clients}
           getOptionLabel={(option) => option.name || ""}
-          value={clients.find((c) => c.id === clients.id) || null}
-          onChange={(e) =>
-            setProject((prev) => ({ ...prev, status: e.target.value }))
+          value={clients.find((c) => c.id === project.client_id) || null}
+          onChange={(e, newValue) =>
+            setProject((prev) => ({ ...prev, client_id: newValue?.id || "" }))
           }
           renderInput={(params) => (
             <TextField {...params} label="Client" margin="normal" fullWidth />
@@ -151,7 +150,7 @@ const EditProject = () => {
           onChange={(e) =>
             setProject((prev) => ({
               ...prev,
-              priority: Number(e.target.value),
+              priority: e.target.value,
             }))
           }
         />

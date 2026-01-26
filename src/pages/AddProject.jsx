@@ -1,72 +1,25 @@
+import { useState, useEffect } from "react";
 import { Autocomplete, Box, Button, TextField, Typography } from "@mui/material";
 import DropDownList from "../components/DropDownList";
-import { useEffect, useState } from "react";
 import * as api from "../api.jsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddProject = () => {
-  const [clients, setClients] = useState([]);
-  const [clientId, setClientId] = useState("");
-  const [status, setStatus] = useState("");
-  const [priority, setPriority] = useState("");
+const EditProject = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const [project, setProject] = useState({
     name: "",
     description: "",
     start_date: "",
     end_date: "",
+    client_id: "",
+    status: "",
+    priority: "",
   });
 
-  useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const resp = await api.clientsForDropdown();
-        setClients(resp.data.data);
-      } catch (error) {
-        console.log("error in fetching clients data", error);
-      }
-    };
+  const [clients, setClients] = useState([]);
 
-    fetchClients();
-  }, []);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProject((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const projectData = {
-      ...project,
-      client_id: clientId,
-      status,
-      priority,
-    };
-
-    try {
-      const res = await api.createProject(projectData);
-      console.log("Project created:", res.data);
-      setProject({ name: "", description: "", start_date: "", end_date: "" });
-      setClientId("");
-      setStatus("");
-      setPriority("");
-
-      navigate("/");
-    } catch (error) {
-      console.log(
-        "Error creating project:",
-        error.response?.data || error.message,
-      );
-    }
-  };
-
-  // id must math the values in the backend
   const statusOptions = [
     { id: "Not started", name: "Not Started" },
     { id: "In progress", name: "In Progress" },
@@ -80,14 +33,47 @@ const AddProject = () => {
     { id: "High", name: "High" },
   ];
 
+  // Fetch project data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const resp = await api.getProject(id);
+        const clientsResp = await api.getAllClients();
+        setClients(clientsResp.data.data);
+        setProject(resp.data.attribute);
+      } catch (error) {
+        console.log("Error fetching project:", error);
+      }
+    };
+
+    if (id) fetchData();
+  }, [id]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProject((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    try {
+      await api.updateProject(id, project);
+      alert("Project updated successfully!");
+      navigate("/projects");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to update project.");
+    }
+  };
+
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleEdit}
       style={{ display: "flex", alignItems: "center", flexDirection: "column" }}
     >
       <Box
         sx={{
-          width: 350,
+          width: 700,
           mx: "auto",
           mt: 10,
           p: 3,
@@ -96,11 +82,11 @@ const AddProject = () => {
         }}
       >
         <Typography textAlign="center" variant="h5" fontWeight={600}>
-          Add new Project
+          Edit Project
         </Typography>
 
         <TextField
-          label="Project name"
+          label="Project Name"
           name="name"
           value={project.name}
           onChange={handleChange}
@@ -109,7 +95,7 @@ const AddProject = () => {
         />
 
         <TextField
-          label="Description of project"
+          label="Description"
           name="description"
           value={project.description}
           onChange={handleChange}
@@ -121,7 +107,7 @@ const AddProject = () => {
         <TextField
           type="date"
           name="start_date"
-          value={project.start_date}
+          value={project.start_date || ""}
           onChange={handleChange}
           fullWidth
           margin="normal"
@@ -131,20 +117,19 @@ const AddProject = () => {
         <TextField
           type="date"
           name="end_date"
-          value={project.end_date}
+          value={project.end_date || ""}
           onChange={handleChange}
           fullWidth
           margin="normal"
         />
 
-        {/* change this drop down to an autocomplete dropdown on search */}
         <Autocomplete
           options={clients}
           getOptionLabel={(option) => option.name || ""}
-          value={clients.find((c) => c.id === clientId) || null}
-          onChange={(event, newValue) => {
-            setClientId(newValue ? newValue.id : "");
-          }}
+          value={clients.find((c) => c.id === project.client_id) || null}
+          onChange={(e, newValue) =>
+            setProject((prev) => ({ ...prev, client_id: newValue?.id || "" }))
+          }
           renderInput={(params) => (
             <TextField {...params} label="Client" margin="normal" fullWidth />
           )}
@@ -152,29 +137,42 @@ const AddProject = () => {
 
         <DropDownList
           label="Status"
-          value={status}
+          value={project.status}
           options={statusOptions}
-          onChange={(e) => setStatus(e.target.value)}
+          onChange={(e) =>
+            setProject((prev) => ({ ...prev, status: e.target.value }))
+          }
         />
 
         <DropDownList
           label="Priority"
-          value={priority}
+          value={project.priority}
           options={priorityOptions}
-          onChange={(e) => setPriority(e.target.value)}
+          onChange={(e) =>
+            setProject((prev) => ({
+              ...prev,
+              priority: e.target.value,
+            }))
+          }
         />
       </Box>
 
-      <Button
-        type="submit"
-        variant="contained"
-        fullWidth
-        sx={{ mt: 2, width: 400 }}
-      >
-        Create project
-      </Button>
+      <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
+        <Button type="submit" variant="contained" sx={{ width: 200 }}>
+          Save
+        </Button>
+
+        <Button
+          type="button"
+          variant="contained"
+          sx={{ width: 200, backgroundColor: "gray" }}
+          onClick={() => navigate("/projects")}
+        >
+          Cancel
+        </Button>
+      </Box>
     </form>
   );
 };
 
-export default AddProject;
+export default EditProject;

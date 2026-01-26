@@ -14,7 +14,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
-import HomeFilledIcon from '@mui/icons-material/HomeFilled';
+import HomeFilledIcon from "@mui/icons-material/HomeFilled";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -23,7 +23,7 @@ import { logOut } from "../api.jsx";
 const drawerWidth = 240;
 
 function Layout() {
-  const { user, setUser, setRole } = useContext(AuthContext); // from context
+  const { user, setUser, role, setRole } = useContext(AuthContext); // from context
   const [mobileOpen, setMobileOpen] = useState(false); // state for mobile sidebar
   const navigate = useNavigate();
 
@@ -53,8 +53,8 @@ function Layout() {
       <Toolbar />
       <Divider />
       <List>
-        <ListItemButton 
-          component={Link} 
+        <ListItemButton
+          component={Link}
           to="/"
           onClick={() => setMobileOpen(false)} // Close drawer on mobile after click
         >
@@ -63,18 +63,18 @@ function Layout() {
           </ListItemIcon>
           Home
         </ListItemButton>
-        <ListItemButton 
-          component={Link} 
+        <ListItemButton
+          component={Link}
           to="/projects"
-          onClick={() => setMobileOpen(false)} 
+          onClick={() => setMobileOpen(false)}
         >
           <ListItemIcon>
             <FolderIcon />
           </ListItemIcon>
           Projects
         </ListItemButton>
-        <ListItemButton 
-          component={Link} 
+        <ListItemButton
+          component={Link}
           to="/clients"
           onClick={() => setMobileOpen(false)}
         >
@@ -83,15 +83,19 @@ function Layout() {
           </ListItemIcon>
           Clients
         </ListItemButton>
-        <ListItemButton 
-          component={Link} 
+        <ListItemButton
+          component={Link}
           to="/add"
           onClick={() => setMobileOpen(false)}
         >
-          <ListItemIcon>
-            <AddCircleIcon />
-          </ListItemIcon>
-          Add New
+          {role === "admin" && (
+            <>
+              <ListItemIcon>
+                <AddCircleIcon />
+              </ListItemIcon>
+              Add New
+            </>
+          )}
         </ListItemButton>
       </List>
       <Divider />
@@ -118,7 +122,7 @@ function Layout() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      
+
       <AppBar
         position="fixed"
         sx={{
@@ -136,7 +140,15 @@ function Layout() {
           >
             <MenuIcon />
           </IconButton>
-          <a href="/" style={{ textDecoration: "none", color: "inherit", fontWeight: 'bold', fontSize: '20px' }}>
+          <a
+            href="/"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              fontWeight: "bold",
+              fontSize: "20px",
+            }}
+          >
             CRM
           </a>
         </Toolbar>
