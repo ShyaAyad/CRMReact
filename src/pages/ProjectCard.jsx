@@ -163,7 +163,7 @@ export default function ProjectCard() {
 
                 <Button
                   component={Link}
-                  to={`/tasks/${data.attribute.task_id}`}
+                  to={`/tasks?ids=${data.attribute.task_id.join(",")}`}
                   size="small"
                   variant="outlined"
                 >

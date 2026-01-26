@@ -114,8 +114,18 @@ export const searchClient = (client) => {
   });
 };
 
-// get client details
 export const clientDetails = (id) => axios.get(url + `clients/${id}`);
 
 // tasks endpoints
 export const getAllTasks = (page = 1) => axios.get(url + `tasks?page=${page}`);
+
+export const getTasksByIds = (ids) => {
+  const token = localStorage.getItem("token");
+  const query = ids.join(",");
+
+  return axios.get(url + `tasks?ids=${query}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

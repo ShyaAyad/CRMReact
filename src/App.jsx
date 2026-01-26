@@ -11,6 +11,7 @@ import EditProject from "./pages/EditProject.jsx";
 import Register from "./components/Register.jsx";
 import AuthContextProvider from "./context/AuthContext.jsx";
 import Layout from "./components/Layout.jsx";
+import TasksPage from "./pages/TasksPage.jsx";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/edit-project/:id" element={<EditProject />} />
           <Route path="/clients" element={<ClientCard />} />
           <Route path="/clients/:id" element={<ClientDetails />} /> {/* only navigate to that specific client details */}
+          <Route path="/tasks" element={<TasksPage />} />
           <Route path="/add" element={<AddNew />} />
           <Route path="/addProject" element={<AddProject />} />
           <Route path="/addClient" element={<AddClient />} />
