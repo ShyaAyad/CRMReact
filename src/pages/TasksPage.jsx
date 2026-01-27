@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import FolderIcon from "@mui/icons-material/Folder";
 import * as api from "../api.jsx";
+import { Card, Typography } from "@mui/material";
+import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
+import DescriptionIcon from "@mui/icons-material/Description";
 
 export default function TasksPage() {
   const location = useLocation();
@@ -33,30 +36,49 @@ export default function TasksPage() {
   return (
     <div>
       <h2>Tasks of this project are: </h2>
+
       <a
         href="/projects"
         style={{
-          display: "flex",
           color: "black",
           margin: "10px 20px",
           textDecoration: "none",
+          display: "flex",
+          alignItems: "center",
         }}
       >
-        <FolderIcon
-          fontSize="large"
-          style={{ display: "flex", alignItems: "center", marginTop: "20px" }}
-        />
+        <FolderIcon fontSize="large" />
         Back to projects
       </a>
 
       {tasks.map((task, num) => (
-        <div key={task.id}>
-          <span>{(num += 1)}.</span>
-          <h4>{task.name}</h4>
-          <p>Status: {task.status}</p>
-          <p>Duration: {task.duration}</p>
-          <p>Description: {task.description}</p>
-        </div>
+        <Card sx={{ padding: 2, marginBottom: 2, boxShadow: 3 }} key={task.id}>
+          <Typography sx={{ fontWeight: 800, fontSize: 20, marginBottom: 2 }}>
+            <span style={{ paddingRight: "10px" }}>{(num += 1)}.</span>
+            {task.name}
+          </Typography>
+          <Typography sx={{ fontSize: 18, marginBottom: 1 }}>
+            Status:{" "}
+            {task.status === "pending" ? (
+              <span style={{ color: "orange", fontWeight: 600 }}>Pending</span>
+            ) : task.status === "under-work" ? (
+              <span style={{ color: "blue", fontWeight: 600 }}>
+                In progress
+              </span>
+            ) : (
+              <span style={{ color: "green", fontWeight: 600 }}>Completed</span>
+            )}
+          </Typography>
+          <Typography sx={{ fontSize: 18, marginBottom: 1 }}>
+            <AccessTimeFilledIcon sx={{ fontSize: 18, marginRight: 1 }} />
+            Duration: {task.duration}
+          </Typography>
+          <Typography sx={{ fontSize: 18, marginBottom: 1 }}>
+            <DescriptionIcon sx={{ fontSize: 18, marginRight: 1 }} />
+            Description: <br />
+            <Typography sx={{ marginLeft: 3 }}>{task.description}</Typography>
+          </Typography>
+        </Card>
       ))}
     </div>
   );
