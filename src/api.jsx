@@ -119,6 +119,15 @@ export const clientDetails = (id) => axios.get(url + `clients/${id}`);
 // tasks endpoints
 export const getAllTasks = (page = 1) => axios.get(url + `tasks?page=${page}`);
 
+export const updateTaskStatus = (id, data) => {
+  const token = localStorage.getItem('token');
+  return axios.patch(url + `tasks/updateStatus/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
 export const getTasksByIds = (ids) => {
   const token = localStorage.getItem("token");
   const query = ids.join(",");

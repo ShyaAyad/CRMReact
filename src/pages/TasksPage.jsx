@@ -2,20 +2,29 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import FolderIcon from "@mui/icons-material/Folder";
 import * as api from "../api.jsx";
-import { Card, Typography } from "@mui/material";
+import { 
+  Card, 
+  Typography, 
+  Box, 
+  Container, 
+  Select,
+  MenuItem,
+  FormControl
+} from "@mui/material";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import DescriptionIcon from "@mui/icons-material/Description";
 
 export default function TasksPage() {
   const location = useLocation();
   const [tasks, setTasks] = useState([]);
+  const [updateTaskId, setUpdateTaskId] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchIDs = async () => {
       try {
         const params = new URLSearchParams(location.search);
-        const idsParam = params.get("ids"); // "14,81"
+        const idsParam = params.get("ids");
 
         if (!idsParam) return;
 
@@ -31,55 +40,110 @@ export default function TasksPage() {
     fetchIDs();
   }, [location.search]);
 
-  if (loading) return <p>Loading tasks...</p>;
+  // using a patch request to update the status of a task 
+  const updateStatus = async (id, status) => {
+    try {
+      setUpdateTaskId(id);
+      await api.updateTaskStatus(id, { status });
+
+      setTasks((prevTasks) =>
+        prevTasks.map((task) => (task.id === id ? { ...task, status } : task)),
+      );
+    } catch (error) {
+      console.log("Failed to update task status", error);
+    } finally {
+      setUpdateTaskId(null);
+    }
+  };
+
+  if (loading) {
+    return <Typography sx={{ p: 4 }}>Loading tasks...</Typography>;
+  }
 
   return (
-    <div>
-      <h2>Tasks of this project are: </h2>
+    <Box sx={{ minHeight: '100vh', bgcolor: 'white', p: 4 }}>
+      <Container maxWidth="lg">
+        <a
+          href="/projects"
+          style={{
+            color: "black",
+            textDecoration: "none",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            marginBottom: "24px"
+          }}
+        >
+          <FolderIcon />
+          Back to projects
+        </a>
+        
+        <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'black', mb: 4, mt: 2 }}>
+          Tasks
+        </Typography>
 
-      <a
-        href="/projects"
-        style={{
-          color: "black",
-          margin: "10px 20px",
-          textDecoration: "none",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <FolderIcon fontSize="large" />
-        Back to projects
-      </a>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {/* dipslay each task in cards */}
+          {tasks.map((task, index) => (
+            <Card 
+              key={task.id}
+              sx={{ 
+                boxShadow: 5,
+                p: 3
+              }}
+            >
+              <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'black' }}>
+                  {index + 1}.
+                </Typography>
+                <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'black' }}>
+                  {task.name}
+                </Typography>
+              </Box>
 
-      {tasks.map((task, num) => (
-        <Card sx={{ padding: 2, marginBottom: 2, boxShadow: 3 }} key={task.id}>
-          <Typography sx={{ fontWeight: 800, fontSize: 20, marginBottom: 2 }}>
-            <span style={{ paddingRight: "10px" }}>{(num += 1)}.</span>
-            {task.name}
-          </Typography>
-          <Typography sx={{ fontSize: 18, marginBottom: 1 }}>
-            Status:{" "}
-            {task.status === "pending" ? (
-              <span style={{ color: "orange", fontWeight: 600 }}>Pending</span>
-            ) : task.status === "under-work" ? (
-              <span style={{ color: "blue", fontWeight: 600 }}>
-                In progress
-              </span>
-            ) : (
-              <span style={{ color: "green", fontWeight: 600 }}>Completed</span>
-            )}
-          </Typography>
-          <Typography sx={{ fontSize: 18, marginBottom: 1 }}>
-            <AccessTimeFilledIcon sx={{ fontSize: 18, marginRight: 1 }} />
-            Duration: {task.duration}
-          </Typography>
-          <Typography sx={{ fontSize: 18, marginBottom: 1 }}>
-            <DescriptionIcon sx={{ fontSize: 18, marginRight: 1 }} />
-            Description: <br />
-            <Typography sx={{ marginLeft: 3 }}>{task.description}</Typography>
-          </Typography>
-        </Card>
-      ))}
-    </div>
+              <Box sx={{ ml: 4 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                  <AccessTimeFilledIcon sx={{ fontSize: 18 }} />
+                  <Typography variant="body2">
+                    {task.duration}
+                  </Typography>
+                </Box>
+
+                <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
+                  <DescriptionIcon sx={{ fontSize: 18, mt: 0.3 }} />
+                  <Typography variant="body2">
+                    {task.description}
+                  </Typography>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 2 }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                    Status:
+                  </Typography>
+                  {/* dropdown list to update the status of the task in place */}
+                  <FormControl size="small">
+                    <Select
+                      value={task.status}
+                      disabled={updateTaskId === task.id}
+                      // send task id and the value of it to update the status
+                      onChange={(e) => updateStatus(task.id, e.target.value)}
+                      sx={{
+                        minWidth: 150,
+                        border: '1px solid black'
+                      }}
+                    >
+                      <MenuItem value="pending">Pending</MenuItem>
+                      <MenuItem value="under-work">Under Work</MenuItem>
+                      <MenuItem value="on-hold">On Hold</MenuItem>
+                      <MenuItem value="finished">Finished</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Box>
+            </Card>
+          ))}
+        </Box>
+      </Container>
+    </Box>
   );
 }
