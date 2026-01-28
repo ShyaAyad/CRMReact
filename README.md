@@ -1,16 +1,46 @@
-# React + Vite
+# Project Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A basic CRM project where you can handle projects, clients, and tasks.
 
-Currently, two official plugins are available:
+## Built with the tools and technologies:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
 
-## React Compiler
+## Functionality 
+- Reponsive design
+- User authenticaton
+- User authorization
+- Role based actions
+- Full CRUD operations
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Prerequesties
+Make sure to have the following installed:
+- Node.js
+- Git
+- npm
+- axios
+- MUI (Material UI)
 
-## Expanding the ESLint configuration
+## Installation 
+Clone the repository 
+```
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Navigate to the folder and install dependencies 
+```
+cd crm
+npm install
+```
+
+Start react project
+```
+npm start
+```
+
+## 📸 Screenshots
