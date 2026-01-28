@@ -59,11 +59,11 @@ const Home = () => {
       value: activeProjects,
       icon: <AssignmentIcon fontSize="large" color="secondary" />,
     },
-    {
-      title: "Revenue",
-      value: "$12,500",
-      icon: <MonetizationOnIcon fontSize="large" color="success" />,
-    },
+    // {
+    //   title: "Revenue",
+    //   value: "$12,500",
+    //   icon: <MonetizationOnIcon fontSize="large" color="success" />,
+    // },
   ];
 
   return (

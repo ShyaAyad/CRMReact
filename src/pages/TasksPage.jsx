@@ -9,7 +9,8 @@ import {
   Container, 
   Select,
   MenuItem,
-  FormControl
+  FormControl,
+  CircularProgress
 } from "@mui/material";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -57,7 +58,23 @@ export default function TasksPage() {
   };
 
   if (loading) {
-    return <Typography sx={{ p: 4 }}>Loading tasks...</Typography>;
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "400px",
+          gap: 2,
+        }}
+      >
+        <CircularProgress size={40} />
+        <Typography variant="body1" color="text.secondary">
+          Loading tasks...
+        </Typography>
+      </Box>
+    );
   }
 
   return (
@@ -78,7 +95,7 @@ export default function TasksPage() {
           Back to projects
         </a>
         
-        <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'black', mb: 4, mt: 2 }}>
+        <Typography variant="h4" sx={{ fontWeight: 600, color: 'black', mb: 4, mt: 2 }}>
           Tasks
         </Typography>
 
@@ -93,10 +110,10 @@ export default function TasksPage() {
               }}
             >
               <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-                <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'black' }}>
+                <Typography variant="h6" sx={{ fontWeight: 700, color: 'black' }}>
                   {index + 1}.
                 </Typography>
-                <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'black' }}>
+                <Typography variant="h6" sx={{ fontWeight: 600, color: 'black' }}>
                   {task.name}
                 </Typography>
               </Box>

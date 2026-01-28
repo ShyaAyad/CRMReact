@@ -52,6 +52,8 @@ export default function DataGridDemo({
     } catch (error) {
       console.error("Update failed:", error);
       return oldRow; // if any error return old row
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -135,7 +137,7 @@ export default function DataGridDemo({
   const displayedRows =
     searchQuery && searchQuery.length > 0 ? searchRows : rows;
 
-  // Mobile Card View for responsiveness 
+  // Mobile Card View for responsiveness
   const MobileCardView = () => (
     <Box
       sx={{
@@ -164,7 +166,7 @@ export default function DataGridDemo({
               <strong>Company:</strong> {client.company}
             </Typography>
           </CardContent>
-          
+
           {/* again conditionally display delete button based on user role */}
           {role === "admin" && (
             <>
@@ -189,7 +191,7 @@ export default function DataGridDemo({
 
   return (
     <>
-    {/* conditional rendering based on screen size */}
+      {/* conditional rendering based on screen size */}
       {isMobile ? (
         <MobileCardView />
       ) : (

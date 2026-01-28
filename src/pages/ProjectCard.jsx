@@ -3,7 +3,7 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import CardActionArea from "@mui/material/CardActionArea";
 import Typography from "@mui/material/Typography";
-import { Box, Divider } from "@mui/material";
+import { Box, CircularProgress, Divider } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
@@ -15,6 +15,7 @@ export default function ProjectCard() {
   const [projectData, setProjectData] = useState([]);
   const [page, setPages] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const { role } = useContext(AuthContext); // get the role of the user
 
@@ -30,6 +31,8 @@ export default function ProjectCard() {
         setTotalPages(response.data.meta.last_page);
       } catch (error) {
         console.log("Error fetching data:", error);
+      }finally{
+        setLoading(false);
       }
     };
 
@@ -47,6 +50,30 @@ export default function ProjectCard() {
       console.log("Failed to delete project, try again:", error);
     }
   };
+
+  if(!projectData){
+    return <Typography sx={{display: 'flex', alignItems: 'center', alignContent: 'center'}}>No project is found!</Typography>
+  }
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "400px",
+          gap: 2,
+        }}
+      >
+        <CircularProgress size={40} />
+        <Typography variant="body1" color="text.secondary">
+          Loading projects...
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <>
