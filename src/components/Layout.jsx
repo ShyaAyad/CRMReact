@@ -83,20 +83,20 @@ function Layout() {
           </ListItemIcon>
           Clients
         </ListItemButton>
-        <ListItemButton
-          component={Link}
-          to="/add"
-          onClick={() => setMobileOpen(false)}
-        >
-          {role === "admin" && (
-            <>
+        {role === "admin" && (
+          <>
+            <ListItemButton
+              component={Link}
+              to="/add"
+              onClick={() => setMobileOpen(false)}
+            >
               <ListItemIcon>
                 <AddCircleIcon />
               </ListItemIcon>
               Add New
-            </>
-          )}
-        </ListItemButton>
+            </ListItemButton>
+          </>
+        )}
       </List>
       <Divider />
       <List>
