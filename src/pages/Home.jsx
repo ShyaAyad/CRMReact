@@ -73,7 +73,7 @@ const Home = () => {
           Welcome to Your CRM
         </Typography>
         <Typography variant="body1" color="text.secondary">
-          Manage your clients, projects, and revenue all in one place.
+          Manage your clients, and projects all in one place.
         </Typography>
       </Box>
 

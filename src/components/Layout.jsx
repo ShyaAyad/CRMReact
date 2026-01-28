@@ -18,7 +18,7 @@ import HomeFilledIcon from "@mui/icons-material/HomeFilled";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { logOut } from "../api.jsx";
+import * as api from "../api.jsx";
 
 const drawerWidth = 240;
 
@@ -34,15 +34,18 @@ function Layout() {
   // function to handle logout
   const handleLogout = async () => {
     try {
-      await logOut();
-      console.error("Logout failed:", err);
+      await api.logOut();
+    } catch (error) {
+      console.error("Logout failed:", error);
     } finally {
-      setRole(null);
-      setUser(null);
-
+      // clear local storage and set role and user to null after logout
       localStorage.removeItem("email");
       localStorage.removeItem("user");
       localStorage.removeItem("token");
+      localStorage.removeItem("role");
+
+      setRole(null);
+      setUser(null);
 
       navigate("/login");
     }

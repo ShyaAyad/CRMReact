@@ -15,7 +15,7 @@ export const register = (name, email, password) => {
 // logout
 export const logOut = () => {
   const token = localStorage.getItem("token");
-  axios.post(url + `logout`, {}, {
+  return axios.post(url + `logout`, {}, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
