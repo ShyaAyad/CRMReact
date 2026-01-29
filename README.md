@@ -62,12 +62,14 @@ Add client form
 ![Add client form](screenshots/addClient.png)
 
 ## 📁 Folder Structure
+
 src/
 ├── components/   # Reusable UI components
 ├── context/      # Authentication context used across the application
 ├── pages/        # Main application pages (Login, Projects, Clients, etc.)
 ├── api/          # Backend API endpoints and Axios requests
 └── App.jsx       # Application root component
+
 
 ## Prerequisites
 Make sure to have the following installed:
@@ -99,4 +101,4 @@ npm run dev
 Junior Fullstack Developer  
 
 Email: [shyaayad1@gmail.com](mailto:shyaayad1@gmail.com)  
-[LinkedIn]([https://www.linkedin.com/in/shya-ayad-b823362b7](https://www.linkedin.com/in/shya-ayad-b823362b7?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app)) | [GitHub](https://github.com/ShyaAyad)
+[LinkedIn](https://www.linkedin.com/in/shya-ayad-b823362b7) | [GitHub](https://github.com/ShyaAyad)
