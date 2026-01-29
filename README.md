@@ -27,38 +27,38 @@ Manage Your Work (MYW) is a basic CRM application that allows users to manage pr
 
 ## 📸 Screenshots
 
-### Authentication
-Login Form
+## Authentication
+### Login Form
 ![Login form](screenshots/login.png)
 
-Register Form
+### Register Form
 ![Register form](screenshots/register.png)
 
 ### User view
 
-Home Page
+### Home Page
 
-Projects Page
+### Projects Page
 ![Projects page](screenshots/projectPage.png)
 
-Clients Page
+### Clients Page
 ![Clients page](screenshots/clientsPage.png)
 
 ## Admin view in the system
 
-Project Page
+### Project Page
 ![Admin project page](screenshots/admin-projectVu.png)
 
-Clients Page
+### Clients Page
 ![Admin client page](screenshots/admin-clientVu.png)
 
-Add new Project/Client page
+### Add new Project/Client page
 ![Add new page](screenshots/addNew.png)
 
-Add project form
+### Add project form
 ![Add project form](screenshots/addProject.png)
 
-Add client form
+### Add client form
 ![Add client form](screenshots/addClient.png)
 
 ## 📁 Folder Structure
