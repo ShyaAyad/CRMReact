@@ -1,6 +1,6 @@
-# Project Manager
+# Manage Your Work (MYW)
 
-A basic CRM project where you can handle projects, clients, and tasks.
+Manage Your Work (MYW) is a basic CRM application that allows users to manage projects, clients, and tasks with role-based access control.
 
 ## Built with the tools and technologies:
 
@@ -9,23 +9,73 @@ A basic CRM project where you can handle projects, clients, and tasks.
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
+![MUI](https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=mui&logoColor=white)
 
-## Functionality 
-- Reponsive design
-- User authenticaton
+## 🚀 Functionality
+- Responsive design
+- User authentication
 - User authorization
-- Role based actions
+- Role-based actions
 - Full CRUD operations
 
-## Prerequesties
+## ✨ Features
+- Secure login and registration system
+- Role-based dashboards (Admin / User)
+- Project and client management
+- Task tracking with status updates
+- Clean and intuitive UI using Material UI
+
+## 📸 Screenshots
+
+### Authentication
+Login Form
+![Login form](screenshots/login.png)
+
+Register Form
+![Register form](screenshots/register.png)
+
+### User view
+
+Home Page
+
+Projects Page
+![Projects page](screenshots/projectPage.png)
+
+Clients Page
+![Clients page](screenshots/clientsPage.png)
+
+## Admin view in the system
+
+Project Page
+![Admin project page](screenshots/admin-projectVu.png)
+
+Clients Page
+![Admin client page](screenshots/admin-clientVu.png)
+
+Add new Project/Client page
+![Add new page](screenshots/addNew.png)
+
+Add project form
+![Add project form](screenshots/addProject.png)
+
+Add client form
+![Add client form](screenshots/addClient.png)
+
+## 📁 Folder Structure
+src/
+├── components/   # Reusable UI components
+├── context/      # Authentication context used across the application
+├── pages/        # Main application pages (Login, Projects, Clients, etc.)
+├── api/          # Backend API endpoints and Axios requests
+└── App.jsx       # Application root component
+
+## Prerequisites
 Make sure to have the following installed:
 - Node.js
 - Git
 - npm
-- axios
-- MUI (Material UI)
 
-## Installation 
+## ⚙️ Installation 
 Clone the repository 
 ```
 git clone https://github.com/your-username/your-repo-name.git
@@ -40,7 +90,13 @@ npm install
 
 Start react project
 ```
-npm start
+npm run dev
 ```
 
-## 📸 Screenshots
+## 👤 Author
+
+**Shya Ayad**  
+Junior Fullstack Developer  
+
+Email: [shyaayad1@gmail.com](mailto:shyaayad1@gmail.com)  
+[LinkedIn]([https://www.linkedin.com/in/shya-ayad-b823362b7](https://www.linkedin.com/in/shya-ayad-b823362b7?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app)) | [GitHub](https://github.com/ShyaAyad)
