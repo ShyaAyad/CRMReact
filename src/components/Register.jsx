@@ -2,6 +2,7 @@ import { Box, TextField, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import * as api from "../api.jsx";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 const Register = () => {
   const [name, setName] = useState("");
