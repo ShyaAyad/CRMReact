@@ -12,6 +12,7 @@ import Register from "./components/Register.jsx";
 import AuthContextProvider from "./context/AuthContext.jsx";
 import Layout from "./components/Layout.jsx";
 import TasksPage from "./pages/TasksPage.jsx";
+import RecycleBin from "./pages/RecycleBin.jsx";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/tasks" element={<TasksPage />} />
           <Route path="/add" element={<AddNew />} />
           <Route path="/addProject" element={<AddProject />} />
+          <Route path="/recycle-bin" element={<RecycleBin />} />
           <Route path="/addClient" element={<AddClient />} />
           <Route path="/login" element={<Login />} />
         </Route>

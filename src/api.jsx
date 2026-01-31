@@ -138,3 +138,13 @@ export const getTasksByIds = (ids) => {
     },
   });
 };
+
+// trashed data 
+export const getTrasheProjects = () => {
+  // const token = localStorage.getItem("token");
+  return axios.get(url + `projects/trashed`);
+}
+
+export const getTrashedClients = () => {
+  return axios.get(url + `clients/trashed`);
+}
