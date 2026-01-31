@@ -141,10 +141,37 @@ export const getTasksByIds = (ids) => {
 
 // trashed data 
 export const getTrasheProjects = () => {
-  // const token = localStorage.getItem("token");
-  return axios.get(url + `projects/trashed`);
+  const token = localStorage.getItem("token");
+  return axios.get(url + `projects/trashed`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
 
 export const getTrashedClients = () => {
-  return axios.get(url + `clients/trashed`);
+  const token = localStorage.getItem("token");
+  return axios.get(url + `clients/trashed`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+}
+
+export const restoreProject = (id) => {
+  const token = localStorage.getItem("token");
+  return axios.post(url + `project/${id}/restore`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+}
+
+export const restoreClient = (id) => {
+  const token = localStorage.getItem("token");
+  return axios.post(url + `clients/${id}/restore`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
 }

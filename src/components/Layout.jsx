@@ -15,7 +15,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import HomeFilledIcon from "@mui/icons-material/HomeFilled";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -88,19 +88,19 @@ function Layout() {
           Clients
         </ListItemButton>
 
-        <ListItemButton
-          component={Link}
-          to="/recycle-bin"
-          onClick={() => setMobileOpen(false)}
-        >
-          <ListItemIcon>
-            <DeleteIcon />
-          </ListItemIcon>
-          Recycle Bin
-        </ListItemButton>
-
         {role === "admin" && (
           <>
+            <ListItemButton
+              component={Link}
+              to="/recycle-bin"
+              onClick={() => setMobileOpen(false)}
+            >
+              <ListItemIcon>
+                <DeleteIcon />
+              </ListItemIcon>
+              Recycle Bin
+            </ListItemButton>
+            
             <ListItemButton
               component={Link}
               to="/add"

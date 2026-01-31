@@ -26,14 +26,9 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import FolderIcon from "@mui/icons-material/Folder";
 import PersonIcon from '@mui/icons-material/Person';
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import ImageIcon from "@mui/icons-material/Image";
-import DescriptionIcon from "@mui/icons-material/Description";
 import * as api from "../api.jsx";
 
 export default function RecycleBin() {
-  const [deletedProject, setDeletedProject] = useState([]);
-  const [deletedClients, setDeletedClients] = useState([]);
   const [deletedItems, setDeletedItems] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -72,20 +67,6 @@ export default function RecycleBin() {
     };
     fetchTrashedProjects();
   }, []);
-
-  const getFileIcon = (type) => {
-    switch (type) {
-      case "folder":
-        return <FolderIcon sx={{ color: "#1976d2" }} />;
-      case "image":
-        return <ImageIcon sx={{ color: "#ff9800" }} />;
-      case "document":
-      case "spreadsheet":
-        return <DescriptionIcon sx={{ color: "#4caf50" }} />;
-      default:
-        return <InsertDriveFileIcon sx={{ color: "#757575" }} />;
-    }
-  };
 
   const handleRestore = (item) => {
     setSelectedItem(item);
@@ -279,7 +260,7 @@ export default function RecycleBin() {
         </DialogActions>
       </Dialog>
 
-      {/* snackbar */}
+      {/* snackbar to show state after deleting or restoring data */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={4000}
