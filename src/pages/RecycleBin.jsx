@@ -72,6 +72,12 @@ export default function RecycleBin() {
     setSelectedItem(item);
     setDialogAction("restore");
     setOpenDialog(true);
+
+    const project = api.restoreProject();
+    const client = api.restoreClient();
+    console.log("Restore the project" + project)
+    console.log("Restore the client" + client)
+
   };
 
   const handleDelete = (item) => {
