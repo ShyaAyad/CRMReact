@@ -20,7 +20,6 @@ const ClientCard = () => {
     const query = e.target.search.value; // take users input
     try {
       const resp = await api.searchClient(query);
-      console.log(resp.data.searchResult);
       setSearchQuery(resp.data.searchResult);
 
       e.target.search.value = "";

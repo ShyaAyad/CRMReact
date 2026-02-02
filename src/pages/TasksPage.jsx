@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import FolderIcon from "@mui/icons-material/Folder";
 import * as api from "../api.jsx";
 import { 
@@ -80,8 +80,8 @@ export default function TasksPage() {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'white', p: 4 }}>
       <Container maxWidth="lg">
-        <a
-          href="/projects"
+        <Link
+          to="/projects"
           style={{
             color: "black",
             textDecoration: "none",
@@ -93,7 +93,7 @@ export default function TasksPage() {
         >
           <FolderIcon />
           Back to projects
-        </a>
+        </Link>
         
         <Typography variant="h4" sx={{ fontWeight: 600, color: 'black', mb: 4, mt: 2 }}>
           Tasks

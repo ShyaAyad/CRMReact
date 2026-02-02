@@ -60,6 +60,7 @@ export default function RecycleBin() {
           }),
         );
 
+        // store all the deleted data in one state
         setDeletedItems([...projectsWithType, ...clientsWithType]);
       } catch (error) {
         console.log("Error fetching deleted items", error);
@@ -72,12 +73,6 @@ export default function RecycleBin() {
     setSelectedItem(item);
     setDialogAction("restore");
     setOpenDialog(true);
-
-    const project = api.restoreProject();
-    const client = api.restoreClient();
-    console.log("Restore the project" + project)
-    console.log("Restore the client" + client)
-
   };
 
   const handleDelete = (item) => {
@@ -86,27 +81,52 @@ export default function RecycleBin() {
     setOpenDialog(true);
   };
 
-  const confirmAction = () => {
-    if (dialogAction === "restore") {
-      setDeletedItems(
-        deletedItems.filter((item) => item.id !== selectedItem.id),
-      );
+  const confirmAction = async () => {
+    try {
+      // based on action show dialog
+      if (dialogAction === "restore") {
+        // check what data user want to restore and send api request based on that
+        if (selectedItem.type === "project") {
+          await api.restoreProject(selectedItem.id);
+        } else if (selectedItem.type === "client") {
+          await api.restoreClient(selectedItem.id);
+        }
+
+        setDeletedItems(
+          deletedItems.filter((item) => item.id !== selectedItem.id),
+        );
+        setSnackbar({
+          open: true,
+          message: `"${selectedItem.name}" has been restored successfully!`,
+          severity: "success",
+        });
+      } else if (dialogAction === "delete") {
+        // check what data user want to delete permanently and send api request based on that
+        if (selectedItem.type === "project") {
+          await api.permanentlyDeleteProject(selectedItem.id);
+        } else if (selectedItem.type === "client") {
+          await api.permanentlyDeleteClient(selectedItem.id);
+        }
+
+        setDeletedItems(
+          deletedItems.filter((item) => item.id !== selectedItem.id),
+        );
+        setSnackbar({
+          open: true,
+          message: `"${selectedItem.name}" has been permanently deleted!`,
+          severity: "info",
+        });
+      }
+    } catch (error) {
+      console.error("Error performing action:", error);
       setSnackbar({
         open: true,
-        message: `"${selectedItem.name}" has been restored successfully!`,
-        severity: "success",
+        message: `Failed to ${dialogAction} "${selectedItem.name}". Please try again.`,
+        severity: "error",
       });
-    } else if (dialogAction === "delete") {
-      setDeletedItems(
-        deletedItems.filter((item) => item.id !== selectedItem.id),
-      );
-      setSnackbar({
-        open: true,
-        message: `"${selectedItem.name}" has been permanently deleted!`,
-        severity: "info",
-      });
+    } finally {
+      setOpenDialog(false);
     }
-    setOpenDialog(false);
   };
 
   return (
@@ -193,12 +213,14 @@ export default function RecycleBin() {
                       </Box>
                     </Box>
                   </TableCell>
+                  {/* change color of data type conditionally */}
                   {item.type === "project" ? (
                     <TableCell sx={{ color: "#4e9dff" }}>{item.type}</TableCell>
                   ) : (
                     <TableCell sx={{ color: "#ce58db" }}>{item.type}</TableCell>
                   )}
                   <TableCell sx={{ color: "#666" }}>
+                    {/* only show year for the date */}
                     {item.deleted_at.substring(0, 10)}
                   </TableCell>
                   <TableCell align="center">
