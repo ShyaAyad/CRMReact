@@ -21,18 +21,18 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
           <Route path="/projects" element={<ProjectCard />} />
+          <Route path="/addProject" element={<AddProject />} />
+          <Route path="/addClient" element={<AddClient />} />
           <Route path="/edit-project/:id" element={<EditProject />} />
           <Route path="/clients" element={<ClientCard />} />
           <Route path="/clients/:id" element={<ClientDetails />} /> {/* only navigate to that specific client details */}
           <Route path="/tasks" element={<TasksPage />} />
           <Route path="/add" element={<AddNew />} />
-          <Route path="/addProject" element={<AddProject />} />
           <Route path="/recycle-bin" element={<RecycleBin />} />
-          <Route path="/addClient" element={<AddClient />} />
-          <Route path="/login" element={<Login />} />
         </Route>
       </Routes>
     </AuthContextProvider>

@@ -15,7 +15,7 @@ const AddClient = () => {
     const clientData = { name, email, phone, company };
 
     try {
-      const res = await api.createClient(clientData); 
+      const res = await api.createClient(clientData);
       // console.log("Client created:", res.data);
       setName("");
       setEmail("");
@@ -86,14 +86,20 @@ const AddClient = () => {
             margin="normal"
           />
         </Box>
-        <Button
-          type="submit"
-          variant="contained"
-          fullWidth
-          sx={{ mt: 2, width: 400 }}
-        >
-          Create client
-        </Button>
+        <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
+          <Button type="submit" variant="contained" sx={{ width: 200 }}>
+            Save
+          </Button>
+
+          <Button
+            type="button"
+            variant="contained"
+            sx={{ width: 200, backgroundColor: "gray" }}
+            onClick={() => navigate("/clients")}
+          >
+            Cancel
+          </Button>
+        </Box>
       </form>
     </div>
   );

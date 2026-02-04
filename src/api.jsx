@@ -92,8 +92,9 @@ export const updateProject = async (id, data) => {
 };
 
 // clients endpoints
-export const getAllClients = (page = 1) =>
-  axios.get(url + `clients?page=${page}`);
+export const getAllClients = (page = 1) =>{
+  return axios.get(url + `clients?page=${page}`);
+}
 
 export const clientsForDropdown = async () => {
   const token = await secureStorage.getToken();

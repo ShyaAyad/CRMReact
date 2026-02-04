@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
-import { Autocomplete, Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  TextField,
+  Typography,
+} from "@mui/material";
 import DropDownList from "../components/DropDownList";
 import * as api from "../api.jsx";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const EditProject = () => {
+const AddProject = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
 
   const [project, setProject] = useState({
     name: "",
@@ -19,6 +24,7 @@ const EditProject = () => {
   });
 
   const [clients, setClients] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const statusOptions = [
     { id: "Not started", name: "Not Started" },
@@ -33,55 +39,52 @@ const EditProject = () => {
     { id: "High", name: "High" },
   ];
 
-  // Fetch project data
+  // Fetch clients for dropdown
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchClients = async () => {
       try {
-        const resp = await api.getProject(id);
-        const clientsResp = await api.getAllClients();
-        console.log(clientsResp.data.data);
-        setClients(clientsResp.data.data);
-        setProject(resp.data.attribute);
+        setLoading(true);
+        const response = await api.clientsForDropdown();
+        console.log("Clients response:", response.data);
+        setClients(response.data.data || response.data || []);
       } catch (error) {
-        console.log("Error fetching project:", error);
+        console.error("Error fetching clients:", error);
+        alert("Failed to load clients.");
+      } finally {
+        setLoading(false);
       }
     };
 
-    if (id) fetchData();
-  }, [id]);
+    fetchClients();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProject((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleEdit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await api.updateProject(id, project);
-      alert("Project updated successfully!");
-      navigate("/projects");
-    } catch (error) {
-      console.error(error);
-      alert("Failed to update project.");
-    }
-  };
 
-  const handleAdd = async (e) => {
-    e.preventDefault();
+    // Validation
+    if (!project.name.trim()) {
+      alert("Please enter a project name.");
+      return;
+    }
+
     try {
-      await api.createProject(id, project);
+      await api.createProject(project);
       alert("Project added successfully!");
       navigate("/projects");
     } catch (error) {
-      console.error(error);
-      alert("Failed to update project.");
+      console.error("Error creating project:", error);
+      alert("Failed to add project.");
     }
   };
 
   return (
     <form
-      onSubmit={handleAdd}
+      onSubmit={handleSubmit}
       style={{ display: "flex", alignItems: "center", flexDirection: "column" }}
     >
       <Box
@@ -95,7 +98,7 @@ const EditProject = () => {
         }}
       >
         <Typography textAlign="center" variant="h5" fontWeight={600}>
-          Edit Project
+          Add Project
         </Typography>
 
         <TextField
@@ -105,6 +108,7 @@ const EditProject = () => {
           onChange={handleChange}
           fullWidth
           margin="normal"
+          required
         />
 
         <TextField
@@ -114,26 +118,26 @@ const EditProject = () => {
           onChange={handleChange}
           fullWidth
           margin="normal"
+          multiline
+          rows={3}
         />
 
-        <Typography>Start Date</Typography>
+        <Typography sx={{ mt: 2, mb: 0.5 }}>Start Date</Typography>
         <TextField
           type="date"
           name="start_date"
           value={project.start_date || ""}
           onChange={handleChange}
           fullWidth
-          margin="normal"
         />
 
-        <Typography>End Date</Typography>
+        <Typography sx={{ mt: 2, mb: 0.5 }}>End Date</Typography>
         <TextField
           type="date"
           name="end_date"
           value={project.end_date || ""}
           onChange={handleChange}
           fullWidth
-          margin="normal"
         />
 
         <Autocomplete
@@ -143,9 +147,18 @@ const EditProject = () => {
           onChange={(e, newValue) =>
             setProject((prev) => ({ ...prev, client_id: newValue?.id || "" }))
           }
+          loading={loading}
           renderInput={(params) => (
-            <TextField {...params} label="Client" margin="normal" fullWidth />
+            <TextField
+              {...params}
+              label="Client"
+              margin="normal"
+              fullWidth
+              placeholder="Search for a client..."
+            />
           )}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
+          noOptionsText={loading ? "Loading..." : "No clients found"}
         />
 
         <DropDownList
@@ -177,8 +190,8 @@ const EditProject = () => {
 
         <Button
           type="button"
-          variant="contained"
-          sx={{ width: 200, backgroundColor: "gray" }}
+          variant="outlined"
+          sx={{ width: 200 }}
           onClick={() => navigate("/projects")}
         >
           Cancel
@@ -188,4 +201,4 @@ const EditProject = () => {
   );
 };
 
-export default EditProject;
+export default AddProject;
