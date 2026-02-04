@@ -1,5 +1,5 @@
 import { Box, TextField, Button, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import * as api from "../api.jsx";
 import { AuthContext } from "../context/AuthContext.jsx";
@@ -76,7 +76,7 @@ const Register = () => {
         />
 
         <Typography variant="body2" color="textSecondary" mt={1}>
-          Already have an account? <a href="/login">Login</a>.
+          Already have an account? <Link to="/login">Login</Link>.
         </Typography>
         <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
           Continue

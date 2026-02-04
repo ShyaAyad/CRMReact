@@ -39,6 +39,7 @@ const EditProject = () => {
       try {
         const resp = await api.getProject(id);
         const clientsResp = await api.getAllClients();
+        console.log(clientsResp.data.data);
         setClients(clientsResp.data.data);
         setProject(resp.data.attribute);
       } catch (error) {
@@ -66,9 +67,21 @@ const EditProject = () => {
     }
   };
 
+  const handleAdd = async (e) => {
+    e.preventDefault();
+    try {
+      await api.createProject(id, project);
+      alert("Project added successfully!");
+      navigate("/projects");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to update project.");
+    }
+  };
+
   return (
     <form
-      onSubmit={handleEdit}
+      onSubmit={handleAdd}
       style={{ display: "flex", alignItems: "center", flexDirection: "column" }}
     >
       <Box

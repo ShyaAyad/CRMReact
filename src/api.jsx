@@ -196,7 +196,6 @@ export const getTrashedClients = async () => {
 
 export const restoreProject = async (id) => {
   const token = await secureStorage.getToken();
-  console.log(token);
   return axios.post(
     url + `projects/${id}/restore`,
     {},

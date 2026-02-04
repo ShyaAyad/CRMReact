@@ -1,5 +1,6 @@
+// src/utils/secureStorage.js
 const isElectron = () => {
-  return typeof window !== "undefined" && !!window.electronAPI;
+  return typeof window !== 'undefined' && !!window.electronAPI;
 };
 
 export const secureStorage = {
@@ -7,7 +8,7 @@ export const secureStorage = {
     if (isElectron()) {
       await window.electronAPI.storeToken(token);
     } else {
-      localStorage.setItem("token", token);
+      localStorage.setItem('token', token);
     }
   },
 
@@ -15,7 +16,7 @@ export const secureStorage = {
     if (isElectron()) {
       return await window.electronAPI.getToken();
     } else {
-      return localStorage.getItem("token");
+      return localStorage.getItem('token');
     }
   },
 
@@ -23,7 +24,7 @@ export const secureStorage = {
     if (isElectron()) {
       await window.electronAPI.deleteToken();
     } else {
-      localStorage.removeItem("token");
+      localStorage.removeItem('token');
     }
-  },
+  }
 };

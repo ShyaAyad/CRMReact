@@ -1,4 +1,4 @@
-// preload.js
+// preload.cjs
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
@@ -6,3 +6,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getToken: () => ipcRenderer.invoke('get-token'),
   deleteToken: () => ipcRenderer.invoke('delete-token')
 });
+
+// console.log('electronAPI exposed to window');

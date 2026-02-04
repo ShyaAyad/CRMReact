@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import * as api from "../api.jsx";
 import HomeIcon from "@mui/icons-material/Home";
 import {
@@ -33,7 +33,7 @@ const ClientDetails = () => {
   return (
     <>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-        <a href="/projects" style={{color: 'black', margin: '10px 20px'}}><HomeIcon fontSize="large" style={{ marginTop: "20px" }} /></a>
+        <Link to="/projects" style={{color: 'black', margin: '10px 20px'}}><HomeIcon fontSize="large" style={{ marginTop: "20px" }} /></Link>
         <Typography style={{ marginTop: "20px" }}>Client {id}</Typography>
       </div>
       <Container maxWidth="sm" sx={{ mt: 4 }}>

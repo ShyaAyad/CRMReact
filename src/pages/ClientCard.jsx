@@ -34,9 +34,8 @@ const ClientCard = () => {
         const resp = await api.getAllClients(page);
         setClientData(resp.data.data);
         setTotalPages(resp.data.meta.last_page);
-        getClients();
       } catch (error) {
-        console.log("Error fetching client data, Try again!");
+        console.log("Error fetching client data, Try again!" + error);
       } finally {
         setLoading(false);
       }

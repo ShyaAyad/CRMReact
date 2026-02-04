@@ -16,7 +16,7 @@ const AddClient = () => {
 
     try {
       const res = await api.createClient(clientData); 
-      console.log("Client created:", res.data);
+      // console.log("Client created:", res.data);
       setName("");
       setEmail("");
       setPhone("");
