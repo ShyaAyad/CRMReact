@@ -152,6 +152,16 @@ export const clientDetails = (id) => axios.get(url + `clients/${id}`);
 // tasks endpoints
 export const getAllTasks = (page = 1) => axios.get(url + `tasks?page=${page}`);
 
+export const createTask = async(taskData) => {
+  const token = await secureStorage.getToken();
+  return axios.post(url + `tasks`, taskData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+    }
+  })
+}
+
 export const updateTaskStatus = async (id, data) => {
   const token = await secureStorage.getToken();
   return axios.patch(url + `tasks/updateStatus/${id}`, data, {

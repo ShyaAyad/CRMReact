@@ -93,8 +93,8 @@ const AddClient = () => {
 
           <Button
             type="button"
-            variant="contained"
-            sx={{ width: 200, backgroundColor: "gray" }}
+            variant="outlined"
+            sx={{ width: 200 }}
             onClick={() => navigate("/clients")}
           >
             Cancel

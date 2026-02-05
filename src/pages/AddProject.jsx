@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 
 const AddProject = () => {
   const navigate = useNavigate();
+  const [clients, setClients] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [project, setProject] = useState({
     name: "",
@@ -23,8 +25,13 @@ const AddProject = () => {
     priority: "",
   });
 
-  const [clients, setClients] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [task, setTask] = useState({
+    name: "",
+    project_id: "",
+    status: "pending", // default status
+    description: "",
+    duration: "",
+  });
 
   const statusOptions = [
     { id: "Not started", name: "Not Started" },
@@ -45,8 +52,7 @@ const AddProject = () => {
       try {
         setLoading(true);
         const response = await api.clientsForDropdown();
-        console.log("Clients response:", response.data);
-        setClients(response.data.data || response.data || []);
+        setClients(response.data.data || response.data);
       } catch (error) {
         console.error("Error fetching clients:", error);
         alert("Failed to load clients.");
@@ -63,22 +69,36 @@ const AddProject = () => {
     setProject((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleTaskChange = (e) => {
+    const { name, value } = e.target;
+    setTask((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation
-    if (!project.name.trim()) {
-      alert("Please enter a project name.");
-      return;
-    }
-
     try {
-      await api.createProject(project);
-      alert("Project added successfully!");
+      const projectData = await api.createProject(project);
+
+      console.log("Project created:", projectData.data);
+
+      // get new project id for task to be created under this project
+      const newProjectId = projectData.data.id || projectData.data.data?.id;
+
+      const taskData = {
+        name: task.name,
+        description: task.description,
+        project_id: newProjectId,
+        status: "pending",
+        duration: task.duration,
+      };
+
+      const taskResponse = await api.createTask(taskData);
+      alert("Project and task added successfully!");
       navigate("/projects");
     } catch (error) {
-      console.error("Error creating project:", error);
-      alert("Failed to add project.");
+      console.error("Error details:", error);
+      console.error("Error response:", error.response);
     }
   };
 
@@ -180,6 +200,41 @@ const AddProject = () => {
               priority: e.target.value,
             }))
           }
+        />
+
+        {/* Project task fields */}
+        <Typography sx={{ mt: 2, mb: 0.5, fontWidth: 500, fontSize: 23 }}>
+          Project task
+        </Typography>
+
+        <TextField
+          label="Task name"
+          name="name"
+          value={task.name}
+          onChange={handleTaskChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+
+        <TextField
+          label="Task description"
+          name="description"
+          value={task.description}
+          onChange={handleTaskChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+
+        <TextField
+          label="Task duration (Hours/days/weeks)"
+          name="duration"
+          value={task.duration}
+          onChange={handleTaskChange}
+          fullWidth
+          margin="normal"
+          required
         />
       </Box>
 
