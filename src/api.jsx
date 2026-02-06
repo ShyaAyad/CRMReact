@@ -184,7 +184,7 @@ export const getTasksByIds = async (ids) => {
   });
 };
 
-// trashed data
+// trashed data restoring and deleting endpoints
 export const getTrasheProjects = async () => {
   const token = await secureStorage.getToken();
   return axios.get(url + `projects/trashed`, {
@@ -233,6 +233,30 @@ export const restoreClient = async (id) => {
     },
   );
 };
+
+/*
+  /projects/{id}/force
+*/
+
+export const deleteTrashedProject = async(id) => {
+  const token = await secureStorage.getToken();
+
+  return axios.delete(url + `projects/${id}/force`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  })
+}
+
+export const deleteTrashedClient = async(id) => {
+  const token = await secureStorage.getToken();
+
+  return axios.delete(url + `client/${id}/force`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  })
+}
 
 /*  
   POST / PUT / PATCH

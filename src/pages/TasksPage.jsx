@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import FolderIcon from "@mui/icons-material/Folder";
 import * as api from "../api.jsx";
 import { 
@@ -20,6 +20,7 @@ export default function TasksPage() {
   const [tasks, setTasks] = useState([]);
   const [updateTaskId, setUpdateTaskId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchIDs = async () => {
@@ -98,6 +99,9 @@ export default function TasksPage() {
         <Typography variant="h4" sx={{ fontWeight: 600, color: 'black', mb: 4, mt: 2 }}>
           Tasks
         </Typography>
+        <Link to={`/projects/${id}/add-task`} style={{ marginBottom: '16px', textDecoration: 'none', color: 'black' }}>
+          Add new task
+        </Link>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {/* dipslay each task in cards */}

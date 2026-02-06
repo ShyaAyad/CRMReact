@@ -103,9 +103,9 @@ export default function RecycleBin() {
       } else if (dialogAction === "delete") {
         // check what data user want to delete permanently and send api request based on that
         if (selectedItem.type === "project") {
-          await api.permanentlyDeleteProject(selectedItem.id);
+          await api.deleteTrashedProject(selectedItem.id);
         } else if (selectedItem.type === "client") {
-          await api.permanentlyDeleteClient(selectedItem.id);
+          await api.deleteTrashedClient(selectedItem.id);
         }
 
         setDeletedItems(
