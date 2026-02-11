@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import FolderIcon from "@mui/icons-material/Folder";
 import PeopleIcon from "@mui/icons-material/People";
+import PsychologyIcon from '@mui/icons-material/Psychology';
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
@@ -86,6 +87,17 @@ function Layout() {
             <PeopleIcon />
           </ListItemIcon>
           Clients
+        </ListItemButton>
+
+        <ListItemButton
+          component={Link}
+          to="/ai"
+          onClick={() => setMobileOpen(false)}
+        >
+          <ListItemIcon>
+            <PsychologyIcon />
+          </ListItemIcon>
+          AI assistant
         </ListItemButton>
 
         {role === "admin" && (
