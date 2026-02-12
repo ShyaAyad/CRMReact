@@ -31,7 +31,8 @@ export default function TasksPage() {
         if (!idsParam) return;
 
         const idsArray = idsParam.split(",").map(Number);
-        const resp = await api.getTasksByIds(idsArray);
+        const resp = await api.getTasksByIds(idsArray); // fetch tasks by ids
+
         setTasks(resp.data.data);
       } catch (error) {
         console.log("Failed to fetch tasks", error);

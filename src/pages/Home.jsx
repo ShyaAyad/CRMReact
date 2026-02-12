@@ -9,8 +9,9 @@ import {
 } from "@mui/material";
 import PeopleIcon from "@mui/icons-material/People";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import { Chart as ChartJs } from "chart.js/auto";
+import { Bar, Doughnut, Line } from "react-chartjs-2";
 import * as api from "../api.jsx";
 
 const Home = () => {
@@ -18,30 +19,34 @@ const Home = () => {
   const [totalClients, setTotalClients] = useState(0);
   const [totalProjects, setTotalProjects] = useState(0);
   const [activeProjects, setActiveProjects] = useState(0);
+  const [projects, setProjects] = useState([]);
 
   const [page, setPages] = useState(1); // state for pages (use it in the api file to fetch data accordingly)
   const [totalPages, setTotalPages] = useState(1); // state for total pages to tell how many pages there will be in the pagination list
 
   useEffect(() => {
     const getHomePageData = async () => {
-        try {
+      try {
         // Fetch clients data
         const clientRes = await api.getAllClients(page);
         setTotalClients(clientRes.data.total_clients);
+
+        const projects = await api.getAllProjects(page);
+        console.log(projects.data.data);
+        setProjects(projects.data.data);
 
         // Fetch projects data
         const projectRes = await api.getAllProjects();
         setActiveProjects(projectRes.data.active_projects);
         setTotalProjects(projectRes.data.total_projects);
         setTotalPages(projectRes.data.meta.last_page);
-
       } catch (error) {
         console.log("Error fetching clients:", error);
       }
     };
 
     getHomePageData();
-  }, [totalClients, totalProjects, activeProjects]);
+  }, []);
 
   const stats = [
     {
@@ -59,11 +64,6 @@ const Home = () => {
       value: activeProjects,
       icon: <AssignmentIcon fontSize="large" color="secondary" />,
     },
-    // {
-    //   title: "Revenue",
-    //   value: "$12,500",
-    //   icon: <MonetizationOnIcon fontSize="large" color="success" />,
-    // },
   ];
 
   return (
@@ -99,6 +99,52 @@ const Home = () => {
           </Grid>
         ))}
       </Grid>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-around",
+          marginTop: "10%",
+        }}
+      >
+        <div>
+          <Bar
+            data={{
+              labels: ["High", "Medium", "Low"],
+              datasets: [
+                {
+                  label: "Project priority",
+                  data: [projects.high, projects.medium, projects.low],
+                  backgroundColor: [
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(153, 102, 255, 0.2)",
+                    "rgba(201, 203, 207, 0.2)",
+                  ],
+                },
+              ],
+            }}
+          />
+        </div>
+        <div>
+          <Doughnut
+            data={{
+              labels: ["High", "Medium", "Low"],
+              datasets: [
+                {
+                  label: "Project priority",
+                  data: [projects.high, projects.medium, projects.low],
+                  backgroundColor: [
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(153, 102, 255, 0.2)",
+                    "rgba(201, 203, 207, 0.2)",
+                  ],
+                },
+              ],
+            }}
+          />
+        </div>
+        <div>3</div>
+      </div>
     </Container>
   );
 };

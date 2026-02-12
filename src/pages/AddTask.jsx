@@ -5,8 +5,8 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 
 const AddTask = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { id } = useParams(); // project ID from URL
+  const location = useLocation(); // for getting current URL info (an object)
+  const { id } = useParams(); 
 
   const [task, setTask] = useState({
     name: "",
@@ -36,8 +36,8 @@ const AddTask = () => {
       alert("Task added successfully!");
       
       // Navigate back with the same query params if they exist
-      const params = new URLSearchParams(location.search);
-      const idsParam = params.get("ids");
+      const params = new URLSearchParams(location.search); // e.g search tasks?ids=1,2,3
+      const idsParam = params.get("ids"); // store ids in a variable
 
       console.log(idsParam);
       
