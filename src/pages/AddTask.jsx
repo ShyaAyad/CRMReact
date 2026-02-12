@@ -27,7 +27,7 @@ const AddTask = () => {
       const taskData = {
         name: task.name,
         description: task.description,
-        project_id: id, // Use project ID from URL params
+        project_id: id,
         status: "pending",
         duration: task.duration,
       };
@@ -38,6 +38,8 @@ const AddTask = () => {
       // Navigate back with the same query params if they exist
       const params = new URLSearchParams(location.search);
       const idsParam = params.get("ids");
+
+      console.log(idsParam);
       
       if (idsParam) {
         navigate(`/projects/${id}/tasks?ids=${idsParam}`);

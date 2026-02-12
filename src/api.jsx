@@ -271,7 +271,7 @@ export const deleteTrashedProject = async(id) => {
 export const deleteTrashedClient = async(id) => {
   const token = await secureStorage.getToken();
 
-  return axios.delete(url + `client/${id}/force`, {
+  return axios.delete(url + `clients/${id}/force`, {
     headers: {
       Authorization: `Bearer ${token}`,
     }

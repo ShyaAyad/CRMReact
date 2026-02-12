@@ -1,7 +1,7 @@
 import { IconButton } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import SendIcon from '@mui/icons-material/Send';
+import SendIcon from "@mui/icons-material/Send";
 
 export default function MultilineTextFields() {
   return (
@@ -23,35 +23,42 @@ export default function MultilineTextFields() {
         label="Multiline"
         multiline
         rows={4}
-        variant="filled"InputProps={{
-        endAdornment: (
-          <IconButton 
-            type="submit"
-            edge="end"
-            sx={{ alignSelf: 'flex-end', mb: 1 }}
-          >
-            <SendIcon />
-          </IconButton>
-        ),
-      }}
+        variant="filled"
+        InputProps={{
+          endAdornment: (
+            <IconButton
+              type="submit"
+              edge="end"
+              sx={{ alignSelf: "flex-end", mb: 1 }}
+            >
+              <SendIcon />
+            </IconButton>
+          ),
+        }}
       />
     </Box>
   );
 }
 
-{
-  /* <TextField
-          id="filled-multiline-flexible"
-          label="Multiline"
-          multiline
-          maxRows={4}
-          variant="filled"
-        />
-        <TextField
-          id="filled-textarea"
-          label="Multiline Placeholder"
-          placeholder="Placeholder"
-          multiline
-          variant="filled"
-        /> */
-}
+/*
+
+to design the text and response after implementing the functionalityas
+
+{messages.map((message) => (
+          <Box
+            key={message.id}
+            sx={{
+              display: 'flex',
+              justifyContent: message.sender === 'user' ? 'flex-end' : 'flex-start',
+            }}
+          >
+            <Paper
+              elevation={2}
+              sx={{
+                p: 2,
+                maxWidth: '70%',
+                backgroundColor: message.sender === 'user' ? '#1976d2' : '#f5f5f5',
+                color: message.sender === 'user' ? 'white' : 'black',
+                borderRadius: 2,
+              }}
+*/

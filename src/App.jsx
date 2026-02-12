@@ -29,14 +29,12 @@ function App() {
           <Route path="/projects" element={<ProjectCard />} />
           <Route path="/addProject" element={<AddProject />} />
           <Route path="/addClient" element={<AddClient />} />
-          {/* <Route path="/add-task" element={<AddTask />} /> */}
           <Route path="/edit-project/:id" element={<EditProject />} />
           <Route path="/clients" element={<ClientCard />} />
           <Route path="/clients/:id" element={<ClientDetails />} /> {/* only navigate to that specific client details */}
-          <Route path="/ai" element={<Ai />} />
-          <Route path="/tasks" element={<TasksPage />} />
-          <Route path="projects/:id/add-task" element={<AddTask />} />
+          <Route path="/ai" element={<Ai />} />     
           <Route path="projects/:id/tasks" element={<TasksPage />} />
+          <Route path="projects/:id/add-task" element={<AddTask />} />
           <Route path="/add" element={<AddNew />} />
           <Route path="/recycle-bin" element={<RecycleBin />} />
         </Route>

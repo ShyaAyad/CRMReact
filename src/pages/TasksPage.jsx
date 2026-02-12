@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import FolderIcon from "@mui/icons-material/Folder";
 import * as api from "../api.jsx";
-import { 
-  Card, 
-  Typography, 
-  Box, 
-  Container, 
+import {
+  Card,
+  Typography,
+  Box,
+  Container,
   Select,
   MenuItem,
   FormControl,
-  CircularProgress
+  CircularProgress,
 } from "@mui/material";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -42,7 +42,7 @@ export default function TasksPage() {
     fetchIDs();
   }, [location.search]);
 
-  // using a patch request to update the status of a task 
+  // using a patch request to update the status of a task
   const updateStatus = async (id, status) => {
     try {
       setUpdateTaskId(id);
@@ -79,7 +79,7 @@ export default function TasksPage() {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'white', p: 4 }}>
+    <Box sx={{ minHeight: "100vh", bgcolor: "white", p: 4 }}>
       <Container maxWidth="lg">
         <Link
           to="/projects"
@@ -89,55 +89,77 @@ export default function TasksPage() {
             display: "inline-flex",
             alignItems: "center",
             gap: "8px",
-            marginBottom: "24px"
+            marginBottom: "24px",
           }}
         >
           <FolderIcon />
           Back to projects
         </Link>
-        
-        <Typography variant="h4" sx={{ fontWeight: 600, color: 'black', mb: 4, mt: 2 }}>
-          Tasks
-        </Typography>
-        <Link to={`/projects/${id}/add-task`} style={{ marginBottom: '16px', textDecoration: 'none', color: 'black' }}>
-          Add new task
-        </Link>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Typography
+          variant="h4"
+          sx={{ fontWeight: 600, color: "black", mb: 4, mt: 2 }}
+        >
+          Tasks
+          <Link
+            to={`/projects/${id}/add-task?ids=${new URLSearchParams(location.search).get("ids")}`}
+            style={{
+              marginBottom: "16px",
+              textDecoration: "none",
+              color: "#fff",
+              fontWeight: 400,
+              fontSize: "20px",
+              marginLeft: "40px",
+              backgroundColor: "#5d73ff",
+              padding: "6px 12px",
+              borderRadius: "5px"
+            }}
+          >
+            Add new task
+          </Link>
+        </Typography>
+
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {/* dipslay each task in cards */}
           {tasks.map((task, index) => (
-            <Card 
+            <Card
               key={task.id}
-              sx={{ 
+              sx={{
                 boxShadow: 5,
-                p: 3
+                p: 3,
               }}
             >
-              <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-                <Typography variant="h6" sx={{ fontWeight: 700, color: 'black' }}>
+              <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+                <Typography
+                  variant="h6"
+                  sx={{ fontWeight: 700, color: "black" }}
+                >
                   {index + 1}.
                 </Typography>
-                <Typography variant="h6" sx={{ fontWeight: 600, color: 'black' }}>
+                <Typography
+                  variant="h6"
+                  sx={{ fontWeight: 600, color: "black" }}
+                >
                   {task.name}
                 </Typography>
               </Box>
 
               <Box sx={{ ml: 4 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                <Box
+                  sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}
+                >
                   <AccessTimeFilledIcon sx={{ fontSize: 18 }} />
-                  <Typography variant="body2">
-                    {task.duration}
-                  </Typography>
+                  <Typography variant="body2">{task.duration}</Typography>
                 </Box>
 
-                <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
+                <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
                   <DescriptionIcon sx={{ fontSize: 18, mt: 0.3 }} />
-                  <Typography variant="body2">
-                    {task.description}
-                  </Typography>
+                  <Typography variant="body2">{task.description}</Typography>
                 </Box>
 
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 2 }}>
+                <Box
+                  sx={{ display: "flex", alignItems: "center", gap: 2, mt: 2 }}
+                >
                   <Typography variant="body2" sx={{ fontWeight: 600 }}>
                     Status:
                   </Typography>
@@ -150,7 +172,7 @@ export default function TasksPage() {
                       onChange={(e) => updateStatus(task.id, e.target.value)}
                       sx={{
                         minWidth: 150,
-                        border: '1px solid black'
+                        border: "1px solid black",
                       }}
                     >
                       <MenuItem value="pending">Pending</MenuItem>
