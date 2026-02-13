@@ -19,7 +19,13 @@ const Home = () => {
   const [totalClients, setTotalClients] = useState(0);
   const [totalProjects, setTotalProjects] = useState(0);
   const [activeProjects, setActiveProjects] = useState(0);
-  const [projects, setProjects] = useState([]);
+  const [projectsWithTasks, setProjectsWithTasks] = useState([]);
+  const [clientProjectsNumber, setClientProjectNumber] = useState([]);
+  const [projects, setProjects] = useState({
+    high: 0,
+    medium: 0,
+    low: 0,
+  });
 
   const [page, setPages] = useState(1); // state for pages (use it in the api file to fetch data accordingly)
   const [totalPages, setTotalPages] = useState(1); // state for total pages to tell how many pages there will be in the pagination list
@@ -30,16 +36,20 @@ const Home = () => {
         // Fetch clients data
         const clientRes = await api.getAllClients(page);
         setTotalClients(clientRes.data.total_clients);
-
-        const projects = await api.getAllProjects(page);
-        console.log(projects.data.data);
-        setProjects(projects.data.data);
+        setClientProjectNumber(clientRes.data.projects);
 
         // Fetch projects data
         const projectRes = await api.getAllProjects();
         setActiveProjects(projectRes.data.active_projects);
         setTotalProjects(projectRes.data.total_projects);
         setTotalPages(projectRes.data.meta.last_page);
+
+        setProjectsWithTasks(projectRes.data.tasks);
+        setProjects({
+          high: projectRes.data.high,
+          medium: projectRes.data.medium,
+          low: projectRes.data.low,
+        });
       } catch (error) {
         console.log("Error fetching clients:", error);
       }
@@ -47,6 +57,12 @@ const Home = () => {
 
     getHomePageData();
   }, []);
+
+  const projectLabels = projectsWithTasks.map((p) => p.name);
+  const taskCounts = projectsWithTasks.map((p) => p.tasks_count);
+
+  const clientProjectLabels = clientProjectsNumber.map((p) => p.name);
+  const clientProjectsCount = clientProjectsNumber.map((p) => p.projects_count);
 
   const stats = [
     {
@@ -103,29 +119,22 @@ const Home = () => {
       <div
         style={{
           display: "flex",
-          justifyContent: "space-around",
-          marginTop: "10%",
+          flexDirection: "column",
+          gap: "40px",
+          marginTop: "3%",
         }}
       >
-        <div>
-          <Bar
-            data={{
-              labels: ["High", "Medium", "Low"],
-              datasets: [
-                {
-                  label: "Project priority",
-                  data: [projects.high, projects.medium, projects.low],
-                  backgroundColor: [
-                    "rgba(255, 99, 132, 0.2)",
-                    "rgba(153, 102, 255, 0.2)",
-                    "rgba(201, 203, 207, 0.2)",
-                  ],
-                },
-              ],
+        <div style={{ width: "450px", height: "450px", margin: "0 auto" }}>
+          <Typography
+            sx={{
+              textAlign: "center",
+              marginBottom: "15px",
+              fontSize: "18px",
+              fontWeight: 500,
             }}
-          />
-        </div>
-        <div>
+          >
+            Project Priorities
+          </Typography>
           <Doughnut
             data={{
               labels: ["High", "Medium", "Low"],
@@ -134,16 +143,96 @@ const Home = () => {
                   label: "Project priority",
                   data: [projects.high, projects.medium, projects.low],
                   backgroundColor: [
-                    "rgba(255, 99, 132, 0.2)",
-                    "rgba(153, 102, 255, 0.2)",
-                    "rgba(201, 203, 207, 0.2)",
+                    "rgba(209, 0, 45, 0.6)",
+                    "rgba(153, 102, 255, 0.6)",
+                    "rgba(201, 203, 207, 0.6)",
+                  ],
+                },
+              ],
+            }}
+            options={{
+              responsive: true,
+              maintainAspectRatio: true,
+              plugins: {
+                legend: {
+                  position: "bottom",
+                },
+              },
+            }}
+          />
+        </div>
+
+        <div style={{ width: "100%", maxWidth: "1200px", height: "400px", margin: "7% 0"}}>
+          <Typography
+            sx={{
+              textAlign: "center",
+              marginBottom: "15px",
+              fontSize: "18px",
+              fontWeight: 500,
+            }}
+          >
+            Project Task Numbers
+          </Typography>
+          <Line
+            data={{
+              labels: projectLabels,
+              datasets: [
+                {
+                  label: "Project Task number",
+                  data: taskCounts,
+                  backgroundColor: "rgba(75, 192, 192, 0.2)",
+                  borderColor: "rgba(75, 192, 192, 1)",
+                  borderWidth: 2,
+                  tension: 0.4,
+                },
+              ],
+            }}
+            options={{
+              responsive: true,
+              maintainAspectRatio: true,
+              plugins: {
+                legend: {
+                  display: true,
+                  position: "top",
+                },
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                },
+              },
+            }}
+          />
+        </div>
+
+        <div style={{ width: "100%", maxWidth: "1200px", height: "400px" }}>
+          <Typography
+            sx={{
+              textAlign: "center",
+              marginBottom: "15px",
+              fontSize: "18px",
+              fontWeight: 500,
+            }}
+          >
+            Client project number
+          </Typography>
+          <Bar
+            data={{
+              labels: clientProjectLabels,
+              datasets: [
+                {
+                  label: "Project priority",
+                  data: clientProjectsCount,
+                  backgroundColor: [
+                    "rgba(239, 176, 3, 0.6)",
+                    "rgba(255, 82, 186, 0.6)",
+                    "rgba(201, 203, 207, 0.6)",
                   ],
                 },
               ],
             }}
           />
         </div>
-        <div>3</div>
       </div>
     </Container>
   );
