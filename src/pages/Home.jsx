@@ -140,7 +140,7 @@ const Home = () => {
               labels: ["High", "Medium", "Low"],
               datasets: [
                 {
-                  label: "Project priority",
+                  label: "Project number with this priority",
                   data: [projects.high, projects.medium, projects.low],
                   backgroundColor: [
                     "rgba(209, 0, 45, 0.6)",

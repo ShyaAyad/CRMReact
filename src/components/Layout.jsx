@@ -89,7 +89,7 @@ function Layout() {
           Clients
         </ListItemButton>
 
-        <ListItemButton
+        {/* <ListItemButton
           component={Link}
           to="/ai"
           onClick={() => setMobileOpen(false)}
@@ -98,7 +98,7 @@ function Layout() {
             <PsychologyIcon />
           </ListItemIcon>
           AI assistant
-        </ListItemButton>
+        </ListItemButton> */}
 
         {role === "admin" && (
           <>
