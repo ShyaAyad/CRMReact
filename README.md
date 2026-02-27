@@ -37,7 +37,7 @@ Manage Your Work (MYW) is a basic CRM application that allows users to manage pr
 ### User view
 
 ### Home Page
-![Home page](screenshots/home.png)
+![Home page](screenshots/homepage.png)
 
 ### Projects Page
 ![Projects page](screenshots/projectPage.png)
@@ -47,6 +47,9 @@ Manage Your Work (MYW) is a basic CRM application that allows users to manage pr
 
 ### Clients Page
 ![Clients page](screenshots/clientsPage.png)
+
+### Client detials 
+![Clients details](screenshots/clientDetails.png)
 
 ### Charts
 
