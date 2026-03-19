@@ -14,7 +14,6 @@ import Layout from "./components/Layout.jsx";
 import TasksPage from "./pages/TasksPage.jsx";
 import RecycleBin from "./pages/RecycleBin.jsx";
 import AddTask from "./pages/AddTask.jsx";
-import Ai from "./pages/Ai.jsx";
 
 function App() {
   return (
@@ -31,8 +30,7 @@ function App() {
           <Route path="/addClient" element={<AddClient />} />
           <Route path="/edit-project/:id" element={<EditProject />} />
           <Route path="/clients" element={<ClientCard />} />
-          <Route path="/clients/:id" element={<ClientDetails />} /> {/* only navigate to that specific client details */}
-          <Route path="/ai" element={<Ai />} />     
+          <Route path="/clients/:id" element={<ClientDetails />} /> {/* only navigate to that specific client details */}  
           <Route path="projects/:id/tasks" element={<TasksPage />} />
           <Route path="projects/:id/add-task" element={<AddTask />} />
           <Route path="/add" element={<AddNew />} />

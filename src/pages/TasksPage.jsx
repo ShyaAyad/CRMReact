@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import FolderIcon from "@mui/icons-material/Folder";
 import * as api from "../api.jsx";
@@ -14,8 +14,10 @@ import {
 } from "@mui/material";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import DescriptionIcon from "@mui/icons-material/Description";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 export default function TasksPage() {
+  const { user } = useContext(AuthContext); 
   const location = useLocation();
   const [tasks, setTasks] = useState([]);
   const [updateTaskId, setUpdateTaskId] = useState(null);
@@ -102,7 +104,8 @@ export default function TasksPage() {
           sx={{ fontWeight: 600, color: "black", mb: 4, mt: 2 }}
         >
           Tasks
-          <Link
+          {user.role === "admin" && (
+            <Link
             to={`/projects/${id}/add-task?ids=${new URLSearchParams(location.search).get("ids")}`}
             style={{
               marginBottom: "16px",
@@ -118,6 +121,7 @@ export default function TasksPage() {
           >
             Add new task
           </Link>
+          )}
         </Typography>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
