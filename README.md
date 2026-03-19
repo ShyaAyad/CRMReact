@@ -89,14 +89,14 @@ Manage Your Work (MYW) is a basic CRM application that allows users to manage pr
 ![Add client form](screenshots/addClient.png)
 
 ## 📁 Folder Structure
-
+```
 src/
 ├── components/   # Reusable UI components
 ├── context/      # Authentication context used across the application
 ├── pages/        # Main application pages (Login, Projects, Clients, etc.)
 ├── api/          # Backend API endpoints and Axios requests
 └── App.jsx       # Application root component
-
+```
 
 ## Prerequisites
 Make sure to have the following installed:

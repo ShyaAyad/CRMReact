@@ -89,17 +89,6 @@ function Layout() {
           Clients
         </ListItemButton>
 
-        {/* <ListItemButton
-          component={Link}
-          to="/ai"
-          onClick={() => setMobileOpen(false)}
-        >
-          <ListItemIcon>
-            <PsychologyIcon />
-          </ListItemIcon>
-          AI assistant
-        </ListItemButton> */}
-
         {role === "admin" && (
           <>
             <ListItemButton

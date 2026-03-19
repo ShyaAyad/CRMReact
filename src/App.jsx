@@ -24,13 +24,13 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
           <Route path="/projects" element={<ProjectCard />} />
           <Route path="/addProject" element={<AddProject />} />
           <Route path="/addClient" element={<AddClient />} />
           <Route path="/edit-project/:id" element={<EditProject />} />
           <Route path="/clients" element={<ClientCard />} />
-          <Route path="/clients/:id" element={<ClientDetails />} /> {/* only navigate to that specific client details */}  
+          <Route path="/clients/:id" element={<ClientDetails />} />{" "}
+          {/* only navigate to that specific client details */}
           <Route path="projects/:id/tasks" element={<TasksPage />} />
           <Route path="projects/:id/add-task" element={<AddTask />} />
           <Route path="/add" element={<AddNew />} />

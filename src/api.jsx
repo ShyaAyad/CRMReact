@@ -277,39 +277,3 @@ export const deleteTrashedClient = async(id) => {
     }
   })
 }
-
-/*  
-  POST / PUT / PATCH
-  With headers but no data → {}, config
-
-  e.g. 
-
-  POST
-  return axios.post(url + `clients/${id}/restore`,
-   {}, <---- forget this and you will cause 401 error 
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  PUT
-  return axios.put(url + `projects/${id}`,
-  data, <---- data or {} if no data 
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  GET / DELETE
-  Only config
-
-  e.g.
-  GET
-  return axios.get(url + `clients/trashed`, {
-    headers: { <--- only config here no body 
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-*/
